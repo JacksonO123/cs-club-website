@@ -1,4 +1,5 @@
 import './About.scss';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 export default function About() {
 	return (

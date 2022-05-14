@@ -57,7 +57,7 @@
 	padding: $margin;
 	padding-top: 12px;
 	transition: 0.25s ease-in-out;
-	// overflow: hidden;
+	overflow: hidden;
 	&.expanded {
 		max-width: $expandedWidth;
 		.sections {
@@ -107,6 +107,7 @@
 			overflow: hidden;
 			display: flex;
 			align-items: center;
+			white-space: nowrap;
 			&::before {
 				content: '';
 				position: absolute;

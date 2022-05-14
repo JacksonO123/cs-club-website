@@ -2,6 +2,8 @@ import './Programs.scss';
 
 export default function Programs() {
 	return (
-		<h2>Programs</h2>
+		<div className="programs">
+			<h1>Programs</h1>
+		</div>
 	);
 }

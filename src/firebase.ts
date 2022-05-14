@@ -1,4 +1,4 @@
-import { FirebaseError, initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import {
 	getAuth,
 	setPersistence,
@@ -7,6 +7,10 @@ import {
 	signInWithRedirect
 } from 'firebase/auth';
 import {
+	doc,
+	getDoc,
+	getDocs,
+	collection,
 	getFirestore,
 } from 'firebase/firestore';
 
@@ -43,9 +47,27 @@ const signOut = () => {
 	auth.signOut();
 }
 
+const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
+	if (!uid) return false;
+	const adminDocument = await getDoc(doc(db, 'admins', 'admins'));
+	const adminIds = adminDocument?.data()?.ids;
+	return adminIds?.includes(uid);
+}
+
+const getAnnouncements = async (): Promise<any[]> => {
+	let announcements: any[] = [];
+	const announcementsCol = await getDocs(collection(db, 'announcements', 'announcements'));
+	announcementsCol.forEach(announcement => {
+		announcements.push(announcement.data());
+	});
+	return announcements;
+}
+
 export {
 	signIn,
 	getUser,
 	getAuthObj,
-	signOut
+	signOut,
+	getIsAdmin,
+	getAnnouncements
 }

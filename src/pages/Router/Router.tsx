@@ -7,8 +7,13 @@ import Announcements from '../Announcements/Announcements';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import About from '../About/About';
 import Programs from '../Programs/Programs';
+import AdminPanel from '../AdminPanel/AdminPanel';
 
-export default function Router() {
+interface Props {
+	isAdmin: boolean;
+}
+
+export default function Router({ isAdmin }: Props) {
 	return (
 		<div className="full router-wrapper">
 			<Routes>
@@ -17,6 +22,7 @@ export default function Router() {
 				<Route path="/leaderboard" element={<Leaderboard />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/programs" element={<Programs />} />
+				<Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
 				<Route path="*" element={<The404Page />} />
 			</Routes>
 		</div>

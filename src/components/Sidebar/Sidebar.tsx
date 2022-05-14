@@ -9,21 +9,25 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 import {
 	signIn,
 	signOut,
 } from '../../firebase';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
 	user?: any;
 	userLoading?: boolean;
+	isAdmin: boolean;
 }
 
-export default function Sidebar({ user, userLoading }: Props) {
+export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 
-	const [active, setActive] = useState<number>(0);
+	const location = useLocation();
+	const [pathname, setPathname] = useState<string>(location.pathname);
 	const [expanded, setExpanded] = useState<boolean>(true);
-	const paths = [
+	let paths = [
 		{
 			path: '/',
 			name: 'Home',
@@ -50,6 +54,13 @@ export default function Sidebar({ user, userLoading }: Props) {
 			icon: <InfoRoundedIcon />
 		},
 	];
+	if (isAdmin) {
+		paths.push({
+			path: '/admin',
+			name: 'Admin Panel',
+			icon: <AdminPanelSettingsRoundedIcon />
+		});
+	}
 
 	const handleToggleExpand = (): void => {
 		setExpanded(prev => !prev);
@@ -63,8 +74,8 @@ export default function Sidebar({ user, userLoading }: Props) {
 		signOut();
 	}
 
-	const isValidUser = () => {
-		return user !== null && !userLoading;
+	const handleSetPath = (path: string): void => {
+		setPathname(path);
 	}
 
 	return (
@@ -78,8 +89,8 @@ export default function Sidebar({ user, userLoading }: Props) {
 								key={`${index}-sidebar-link`}
 							>
 								<div
-									className={`${active === index ? 'active' : ''} section`}
-									onClick={ () => setActive(index) }
+									className={`${path.path === pathname ? 'active' : ''} section`}
+									onClick={ () => handleSetPath(path.path) }
 								>
 									{
 										expanded ? (
