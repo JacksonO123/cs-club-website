@@ -29,7 +29,7 @@ function App() {
       <Header></Header>
       <div className="content row">
         <Sidebar user={user} userLoading={loading} isAdmin={isAdmin}></Sidebar>
-        <Router isAdmin={isAdmin}></Router>
+        <Router user={user} isAdmin={isAdmin}></Router>
       </div>
     </div>
   );

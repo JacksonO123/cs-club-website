@@ -10,14 +10,15 @@ import Programs from '../Programs/Programs';
 import AdminPanel from '../AdminPanel/AdminPanel';
 
 interface Props {
+	user: any;
 	isAdmin: boolean;
 }
 
-export default function Router({ isAdmin }: Props) {
+export default function Router({ user, isAdmin }: Props) {
 	return (
 		<div className="full router-wrapper">
 			<Routes>
-				<Route path="/" element={<Home />} />
+				<Route path="/" element={<Home user={user} />} />
 				<Route path="/announcements" element={<Announcements />} />
 				<Route path="/leaderboard" element={<Leaderboard />} />
 				<Route path="/about" element={<About />} />

@@ -1,0 +1,11 @@
+.card {
+  padding: 20px;
+  border-radius: 8px;
+  // border: 1px solid rgba(0, 0, 0, 0.125);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  width: fit-content;
+  &.stretch {
+    width: auto !important;
+    flex: 1 1 auto;
+  }
+}

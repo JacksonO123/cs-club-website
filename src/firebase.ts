@@ -10,8 +10,10 @@ import {
 	doc,
 	getDoc,
 	getDocs,
+	setDoc,
 	collection,
 	getFirestore,
+	addDoc,
 } from 'firebase/firestore';
 
 const config = {
@@ -63,11 +65,33 @@ const getAnnouncements = async (): Promise<any[]> => {
 	return announcements;
 }
 
+const requestAdminPermissions = (user: any) => {
+	const request = {
+		name: user.displayName,
+		email: user.email,
+		photoUrl: user.photoURL,
+		uid: user.uid
+	}
+	console.log(request);
+	setDoc(doc(db, 'admins', 'requests', 'requests', user.uid), request);
+}
+
+const getRequests = async (): Promise<any[]> => {
+	const requests: any[] = [];
+	const requestsCol = await getDocs(collection(db, 'admins', 'requests', 'requests'));
+	requestsCol.forEach(request => {
+		requests.push(request.data());
+	});
+	return requests;
+}
+
 export {
 	signIn,
 	getUser,
 	getAuthObj,
 	signOut,
 	getIsAdmin,
-	getAnnouncements
+	getAnnouncements,
+	requestAdminPermissions,
+	getRequests
 }
