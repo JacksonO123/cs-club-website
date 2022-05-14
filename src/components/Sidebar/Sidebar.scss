@@ -1,4 +1,46 @@
 @import '../../utils.scss';
+
+// mixins
+@mixin accountButton($color) {
+	background: $color;
+	padding: 8px 16px 8px 10px;
+	cursor: pointer;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: 6px;
+	transition: 0.15s;
+	&.expanded {
+		padding: 8px 12px !important;
+	}
+	&:hover {
+		background: darken($color, 5%);
+	}
+	&:active {
+		background: darken($color, 10%);
+	}
+	span {
+		white-space: nowrap;
+		font-size: 16px;
+		font-weight: 500;
+	}
+}
+
+@mixin accountButtonOutlined($color) {
+	@include accountButton($color);
+	border: 1px solid $color;
+	background: white;
+	color: $color;
+	&:hover {
+		background: rgba($color, 0.25);
+	}
+}
+
 .sidebar {
 	//variables
 	$borderColor: rgba(0 0 0 / 20%);
@@ -92,9 +134,20 @@
 	.expand-arrow-wrapper {
 		width: 100%;
 		display: flex;
-		justify-content: flex-end;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: 10px;
+		&.right {
+			justify-content: flex-end !important;
+		}
+		.sign-in-button {
+			@include accountButton($yellow);
+		}
+		.sign-out-button {
+			@include accountButtonOutlined($red);
+		}
 		.expand-arrow {
-			margin: 10px;
 			height: 40px;
 			aspect-ratio: 1;
 			border: none;

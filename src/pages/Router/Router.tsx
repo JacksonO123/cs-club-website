@@ -6,6 +6,7 @@ import The404Page from '../The404Page/The404Page';
 import Announcements from '../Announcements/Announcements';
 import Leaderboard from '../Leaderboard/Leaderboard';
 import About from '../About/About';
+import Programs from '../Programs/Programs';
 
 export default function Router() {
 	return (
@@ -15,6 +16,7 @@ export default function Router() {
 				<Route path="/announcements" element={<Announcements />} />
 				<Route path="/leaderboard" element={<Leaderboard />} />
 				<Route path="/about" element={<About />} />
+				<Route path="/programs" element={<Programs />} />
 				<Route path="*" element={<The404Page />} />
 			</Routes>
 		</div>
