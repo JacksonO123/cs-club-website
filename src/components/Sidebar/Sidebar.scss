@@ -1,0 +1,31 @@
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	max-width: 250px;
+	width: 100%;
+	height: fit-content;
+	$borderColor: rgba(0 0 0 / 20%);
+	$border: 1px solid $borderColor;
+	border-bottom: $border;
+	border-right: $border;
+	border-radius: 0 0 8px 0;
+	hr {
+		height: 1px;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		background: $borderColor;
+		border: none;
+	}
+	.section {
+		width: 100%;
+		padding: 10px 0px;
+		text-align: center;
+		transition: 0.15s;
+		cursor: pointer;
+		border-top: none;
+		&:hover {
+			background: rgba(0, 0, 0, 0.125);
+		}
+	}
+}
