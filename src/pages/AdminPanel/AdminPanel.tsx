@@ -3,7 +3,8 @@ import '../../utils.scss';
 import Card from '../../components/Card/Card';
 import { useState, useEffect } from 'react';
 import {
-  Avatar
+  Avatar,
+  Button
 } from '@mui/material';
 import {
   getRequests,
@@ -30,6 +31,11 @@ export default function AdminPanel({ isAdmin }: Props) {
     setRequests(tempRequests);
   }
 
+  const handleApproveRequest = (uid: string, index: number): void => {
+    approveRequest(uid);
+    setRequests(prev => prev.filter((_: any, i: number): boolean => i !== index));
+  }
+
   useEffect(() => {
     handleGetRequests();
   }, []);
@@ -46,12 +52,18 @@ export default function AdminPanel({ isAdmin }: Props) {
                   requests.map((request: any, index: number) => {
                     return (
                       <div className="request" key={`${index}-request-index`}>
-                        <div className="request-profile row">
-                          <Avatar src={request.photoUrl} sx={{width: 32, height: 32}}></Avatar>
-                          <h3>{request.name}</h3>
+                        <div className="info">
+                          <div className="request-profile row">
+                            <Avatar src={request.photoUrl} sx={{width: 32, height: 32}}></Avatar>
+                            <h3>{request.name}</h3>
+                          </div>
+                          <p>{request.email}</p>
                         </div>
-                        <p>{request.email}</p>
-                        <button onClick={() => approveRequest(request.uid)}>Approve user</button>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => handleApproveRequest(request.uid, index)}
+                        >Approve user</Button>
                       </div>
                     );
                   })

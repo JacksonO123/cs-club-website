@@ -5,18 +5,27 @@
 		gap: 24px;
 		.request {
 			display: flex;
-			flex-direction: column;
-			gap: 8px;
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: space-between;
 			padding: 8px;
 			border: 1px solid rgba(0, 0, 0, 0.125);
 			border-radius: 6px;
-			p {
-				margin: none;
-			}
-			.request-profile {
+			.info {
 				display: flex;
-				align-items: center;
-				gap: 10px;
+				flex-direction: column;
+				gap: 8px;
+				.request-profile {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+				}
+				p {
+					margin: 2px;
+					padding: 2px 8px;
+					background: rgb(225, 225, 225);
+					border-radius: 50px;
+				}
 			}
 		}
 	}

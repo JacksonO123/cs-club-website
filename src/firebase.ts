@@ -13,7 +13,7 @@ import {
 	setDoc,
 	collection,
 	getFirestore,
-	addDoc,
+	deleteDoc
 } from 'firebase/firestore';
 
 const config = {
@@ -76,16 +76,14 @@ const requestAdminPermissions = (user: any) => {
 	setDoc(doc(db, 'admins', 'requests', 'requests', user.uid), request);
 }
 
-const approveRequest = async (uid: string) => {
-	const request = await getDoc(doc(db, 'admins', 'requests', 'requests', uid));
-	const requestData = request.data();
-	const adminDocument = await getDoc(doc(db, 'admins', 'admins'));
-	const adminIds = adminDocument?.data()?.ids;
-	if (adminIds?.includes(uid)) {
-		return;
+const approveRequest = async (uid: string): Promise<void> => {
+	const admins = await getDoc(doc(db, 'admins', 'admins'));
+	let ids: string[] = admins.data()?.ids;
+	if (!ids.includes(uid)) {
+		ids.push(uid);
+		setDoc(doc(db, 'admins', 'admins'), { ids });
 	}
-	adminIds.push(uid);
-	setDoc(doc(db, 'admins', 'admins'), { ids: adminIds });
+	deleteDoc(doc(db, 'admins', 'requests', 'requests', uid));
 }
 
 const getRequests = async (): Promise<any[]> => {

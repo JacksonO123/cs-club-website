@@ -18,7 +18,7 @@ export default function Router({ user, isAdmin }: Props) {
 	return (
 		<div className="full router-wrapper">
 			<Routes>
-				<Route path="/" element={<Home user={user} />} />
+				<Route path="/" element={<Home user={user} isAdmin={isAdmin} />} />
 				<Route path="/announcements" element={<Announcements />} />
 				<Route path="/leaderboard" element={<Leaderboard />} />
 				<Route path="/about" element={<About />} />
