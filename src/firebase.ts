@@ -76,6 +76,18 @@ const requestAdminPermissions = (user: any) => {
 	setDoc(doc(db, 'admins', 'requests', 'requests', user.uid), request);
 }
 
+const approveRequest = async (uid: string) => {
+	const request = await getDoc(doc(db, 'admins', 'requests', 'requests', uid));
+	const requestData = request.data();
+	const adminDocument = await getDoc(doc(db, 'admins', 'admins'));
+	const adminIds = adminDocument?.data()?.ids;
+	if (adminIds?.includes(uid)) {
+		return;
+	}
+	adminIds.push(uid);
+	setDoc(doc(db, 'admins', 'admins'), { ids: adminIds });
+}
+
 const getRequests = async (): Promise<any[]> => {
 	const requests: any[] = [];
 	const requestsCol = await getDocs(collection(db, 'admins', 'requests', 'requests'));
@@ -93,5 +105,6 @@ export {
 	getIsAdmin,
 	getAnnouncements,
 	requestAdminPermissions,
-	getRequests
+	getRequests,
+	approveRequest
 }

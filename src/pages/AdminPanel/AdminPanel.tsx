@@ -6,7 +6,8 @@ import {
   Avatar
 } from '@mui/material';
 import {
-  getRequests
+  getRequests,
+  approveRequest
 } from '../../firebase';
 
 interface Props {
@@ -50,6 +51,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                           <h3>{request.name}</h3>
                         </div>
                         <p>{request.email}</p>
+                        <button onClick={() => approveRequest(request.uid)}>Approve user</button>
                       </div>
                     );
                   })
