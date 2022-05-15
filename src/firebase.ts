@@ -96,6 +96,7 @@ const getRequests = async (): Promise<any[]> => {
 }
 
 export {
+	db,
 	signIn,
 	getUser,
 	getAuthObj,
