@@ -13,8 +13,10 @@ import {
 	setDoc,
 	collection,
 	getFirestore,
-	deleteDoc
+	deleteDoc,
+	addDoc,
 } from 'firebase/firestore';
+import type { AnnouncementType } from './interfaces';
 
 const config = {
 	apiKey: "AIzaSyDV-jaVv4Nfs-VJGw5AxUve0QonRfeZDLg",
@@ -31,7 +33,6 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const signIn = async () => {
-	//addDoc(collection(db, "leaderboard"), {})
 	await setPersistence(auth, inMemoryPersistence).then(() => {
 		const provider = new GoogleAuthProvider();
 		return signInWithRedirect(auth, provider);
@@ -58,9 +59,9 @@ const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
 	return adminIds?.includes(uid);
 }
 
-const getAnnouncements = async (): Promise<any[]> => {
+const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 	let announcements: any[] = [];
-	const announcementsCol = await getDocs(collection(db, 'announcements', 'announcements'));
+	const announcementsCol = await getDocs(collection(db, 'announcements'));
 	announcementsCol.forEach(announcement => {
 		announcements.push(announcement.data());
 	});
@@ -97,9 +98,11 @@ const getRequests = async (): Promise<any[]> => {
 	return requests;
 }
 
+const addAnnouncement = async (announcement: AnnouncementType): Promise<void> => {
+	addDoc(collection(db, 'announcements'), announcement);
+}
 
 export {
-	db,
 	signIn,
 	getUser,
 	getAuthObj,
@@ -108,5 +111,7 @@ export {
 	getAnnouncements,
 	requestAdminPermissions,
 	getRequests,
-	approveRequest
+	approveRequest,
+	addAnnouncement,
+	db
 }

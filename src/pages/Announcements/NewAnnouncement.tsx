@@ -1,29 +1,68 @@
 import './NewAnnouncement.scss';
-import { getAnnouncements, db } from '../../firebase';
+import { useState } from 'react';
+import type { AnnouncementType } from '../../interfaces';
+import { addAnnouncement } from '../../firebase';
+import Card from '../../components/Card/Card';
 import {
-	doc,
-	setDoc
-} from 'firebase/firestore';
-const create = async (): Promise<void> => {
-	const title = document.getElementById('title') as HTMLInputElement;	
-	const content = document.getElementById('content') as HTMLInputElement;
-	const annoucements = await getAnnouncements();
-	const newAnnouncement = {
-		title: title.value,
-		content: content.value,
-		createdAt: new Date().toISOString()
-	}
-	annoucements.push(newAnnouncement);
-	await setDoc(doc(db, 'announcements', 'annoucement'), {annoucements});
+	Button,
+	TextField
+} from '@mui/material';
+
+interface Props {
+	user: any;
+	onSubmit: Function,
+	onCancel: Function
 }
 
-export default function NewAnnouncement() {
+export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
+
+	const [content, setContent] = useState<string>('');
+
+	const btnStyles = {
+		width: 125,
+	}
+
+	const createAnnouncement = async (): Promise<void> => {
+		const newAnnouncement: AnnouncementType = {
+			from: user.displayName,
+			fromPhotoUrl: user.photoURL,
+			content: content,
+			timestamp: `${new Date().getHours()}:${new Date().getMinutes()} ${new Date().getDay()}/${new Date().getMonth()}/${new Date().getFullYear()}`
+		}
+		addAnnouncement(newAnnouncement);
+		onSubmit();
+	}
+
+	const handleCancel = (): void => {
+		onCancel();
+	}
+
 	return (
-		<div className="full announcements-wrapper">
+		<Card className="new-announcement-wrapper">
 			<h2>Create a New Annoucement</h2>
-			<input type="text" placeholder="Title" id="title" />
-			<textarea placeholder="Description" id="description"/>
-			<button onClick={create}>Create</button>
-		</div>
+			<div className="input-wrapper">
+				<TextField
+					label="Content"
+					variant="filled"
+					fullWidth
+					multiline
+					rows={3}
+					onChange={(e: any): void => setContent(e.target.value)}
+					value={content}
+				/>
+				<div className="controls">
+					<Button
+						sx={btnStyles}
+						onClick={handleCancel}
+						color="secondary"
+					>Cancel</Button>
+					<Button
+						sx={btnStyles}
+						onClick={createAnnouncement}
+						variant="outlined"
+					>Post</Button>
+				</div>
+			</div>
+		</Card>
 	);
 }

@@ -1,0 +1,33 @@
+.announcement {
+  width: 100%;
+  max-width: 825px;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .from {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .from-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #3e3e3e;
+    }
+    .timestamp {
+      font-size: 12px;
+      font-weight: 400;
+      color: #8f8f8f;
+    }
+  }
+  p {
+    margin: 0;
+  }
+}

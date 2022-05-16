@@ -60,6 +60,7 @@
 	overflow: hidden;
 	&.expanded {
 		max-width: $expandedWidth;
+		min-width: $expandedWidth;
 		.sections {
 			.section {
 				gap: 10px;
@@ -68,6 +69,7 @@
 	}
 	&.contracted {
 		max-width: $contractedWidth;
+		min-width: $contractedWidth;
 		.sections {
 			.section {
 				padding: 0;
