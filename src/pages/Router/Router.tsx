@@ -9,7 +9,6 @@ import About from '../About/About';
 import Programs from '../Programs/Programs';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import Problems from '../Problems/Problems';
-import Profile from '../Profile/Profile';
 
 interface Props {
 	user: any;
@@ -27,7 +26,6 @@ export default function Router({ user, isAdmin }: Props) {
 				<Route path="/programs" element={<Programs />} />
 				<Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
 				<Route path="/problems" element={<Problems />} />
-				<Route path="/profile" element={<Profile user={user} />} />
 				<Route path="*" element={<The404Page />} />
 			</Routes>
 		</div>

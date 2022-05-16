@@ -1,26 +1,31 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { getLeaderboard } from '../../firebase';
 import './Leaderboard.scss';
+import type { PointsType } from '../../interfaces';
 
 export default function Leaderboard() {
-	const [leaderboard, setLeaderboard] = useState<any[]>([]);
+	const [leaderboard, setLeaderboard] = useState<PointsType[]>([]);
 
 	useEffect(() => {	
 		async function handleGetLeaderboard(): Promise<void> {
-			const leaderboardData = await getLeaderboard();
-			setLeaderboard(leaderboardData);
+			try {
+				const leaderboardData = await getLeaderboard();
+				setLeaderboard(leaderboardData);
+			} catch (e: any) {}
 		}
 		handleGetLeaderboard();
 	}, [])
 	return (
 		<div className="leaderboard-page">
 		  <h1>Leaderboard </h1>
+		  	<ul className='leaderboard'>
 			{
-				leaderboard.map((data: any, i:number) => (
-					<div key={i}>{ data.name } - { data.points }</div>
+
+				leaderboard.sort((a: PointsType, b:PointsType) => b.points - a.points).map((data: PointsType, i:number) => (
+					<li key={i}>{ data.name } - { data.points }</li>
 				))
 			}
+			</ul>
 		</div>
 	);
 }

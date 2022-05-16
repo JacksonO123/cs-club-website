@@ -1,7 +1,12 @@
 import './Announcements.scss';
 import {
-	getAnnouncements
+	getAnnouncements,
+	db
 } from '../../firebase';
+import {
+	collection,
+	onSnapshot,
+} from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import NewAnnouncement from './NewAnnouncement';
 import { Fab } from '@mui/material';
@@ -39,6 +44,11 @@ export default function Annoucements({ user, isAdmin }: Props) {
 			setAnnouncements(tempAnnouncements);
 		}
 		handleGetAnnouncements();
+		onSnapshot(collection(db, 'announcements'), (snapshot: any) => {
+			const docs = snapshot.docs.map((doc: any) => doc.data());
+			console.log(docs);
+			setAnnouncements(docs);
+		});
 	}, []);
 
 	return (

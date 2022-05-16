@@ -17,8 +17,24 @@ interface PointsType {
   points: number;
 }
 
+interface PointHistory {
+  date: string;
+  timestamp: number;
+  reason: string;
+  amount: number;
+}
+
+interface UserType {
+  uid: string;
+  name: string;
+  points: number;
+  history: PointHistory[];
+}
+
 export type {
   AnnouncementType,
   AdminType,
-  PointsType
+  PointsType,
+  PointHistory,
+  UserType
 }

@@ -4,7 +4,8 @@ import Card from '../../components/Card/Card';
 import { useState, useEffect } from 'react';
 import {
   Avatar,
-  Button
+  Button,
+  Chip
 } from '@mui/material';
 import {
   getRequests,
@@ -71,7 +72,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                               <img alt="" src={request.photoUrl} style={{borderRadius: 100, width: 32, height: 32}}></img>
                               <h3>{request.name}</h3>
                             </div>
-                            <p>{request.email}</p>
+                            <Chip label={request.email} variant="filled" />
                           </div>
                           <Button
                             variant="outlined"
@@ -98,7 +99,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                               <Avatar src={admin.photoUrl} sx={{width: 32, height: 32}}></Avatar>
                               <h3>{admin.name}</h3>
                             </div>
-                            <p>{admin.email}</p>
+                            <Chip label={admin.email} />
                           </div>
                         </div>
                       );

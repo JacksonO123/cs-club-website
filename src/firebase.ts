@@ -16,10 +16,12 @@ import {
 	deleteDoc,
 	addDoc,
 } from 'firebase/firestore';
+import { User } from "./classes";
 import type {
 	AnnouncementType,
 	AdminType,
-	PointsType
+	PointsType,
+	UserType
 } from './interfaces';
 
 const config = {
@@ -122,7 +124,7 @@ const getAdminObjs = async (): Promise<AdminType[]> => {
 	return admins;
 }
 
-export const getLeaderboard = async (): Promise<PointsType[]> => {
+const getLeaderboard = async (): Promise<PointsType[]> => {
 	const leaderboard: any[] = [];
 	const snap = await getDocs(collection(db, "points"));
 	snap.forEach((request) => {
@@ -130,23 +132,59 @@ export const getLeaderboard = async (): Promise<PointsType[]> => {
 	});
 	return leaderboard;
 }
+// turn 0;
 
-export const getPoints = async (uid: string): Promise<number> => {
-	if (!uid) return 0;
-	const snap = await getDoc(doc(db, "points", uid));
+const getUserData = async (uid: string, name: string): Promise<any> => {
+	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
-		return snap.data().points;
+		return snap.data();
 	}
-	return 0;
+	return new User(uid, name, 0, []);
 }
 
-export const addPoints = async (uid: string, name: string, amount: number): Promise<void> => {
-	const points = await getPoints(uid);
-	const newPoints: PointsType = {
-		points: points + amount,
-		name
-	}
+const addPoints = async (uid: string, name: string, reason: string, amount: number): Promise<void> => {
+	const data = await getUserData(uid, name);
+	const newPoints: UserType = {
+		points: data.points + amount,
+		name,
+		uid,
+		history: [
+			...data.history,
+			{amount, reason}
+		]
+	};
 	await setDoc(doc(collection(db, "points"), uid), newPoints);
+
+	/* {
+		points: points + amount,
+		name: string,
+		email: string,
+		uid: string,
+		history: [
+			// history
+		]
+	 }
+	*/
+
+	await setDoc(doc(db, "users", uid), {});
+}
+
+const getPoints = async (user: any): Promise<number> => {
+	const name = user.displayName;
+	const uid = user.uid;
+	const snap = await getDoc(doc(db, "users", uid));
+	if (snap.exists()) {
+		return snap.data().points;
+	} else {
+		const newUser: UserType = {
+			points: 0,
+			name,
+			uid,
+			history: []
+		};
+		setDoc(doc(db, 'users', uid), newUser)
+		return 0;
+	}
 }
 
 export {
@@ -161,5 +199,7 @@ export {
 	approveAdminRequest,
 	addAnnouncement,
 	db,
-	getAdminObjs
+	getAdminObjs,
+	getLeaderboard,
+	getPoints
 }
