@@ -31,10 +31,12 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const signIn = async () => {
+	//addDoc(collection(db, "leaderboard"), {})
 	await setPersistence(auth, inMemoryPersistence).then(() => {
 		const provider = new GoogleAuthProvider();
 		return signInWithRedirect(auth, provider);
 	});
+	
 };
 
 const getUser = () => {
@@ -94,6 +96,7 @@ const getRequests = async (): Promise<any[]> => {
 	});
 	return requests;
 }
+
 
 export {
 	db,

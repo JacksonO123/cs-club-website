@@ -1,6 +1,6 @@
 import './Sidebar.scss';
 import CustomLink from '../CustomLink/CustomLink';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
@@ -10,7 +10,10 @@ import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import PersonIcon from '@mui/icons-material/Person';
 import {
+	getUser,
 	signIn,
 	signOut,
 } from '../../firebase';
@@ -25,6 +28,7 @@ interface Props {
 export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 
 	const location = useLocation();
+	//const user 
 	const [pathname, setPathname] = useState<string>(location.pathname);
 	const [expanded, setExpanded] = useState<boolean>(true);
 	let paths = [
@@ -53,6 +57,16 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 			name: 'About',
 			icon: <InfoRoundedIcon />
 		},
+		{
+			path: '/problems',
+			name: 'Problems',
+			icon: <FitnessCenterIcon />
+		},
+		// {
+		// 	path: '/profile',
+		// 	name: 'Profile',
+		// 	icon: <PersonIcon />
+		// },
 	];
 	if (isAdmin) {
 		paths.push({
@@ -61,6 +75,16 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 			icon: <AdminPanelSettingsRoundedIcon />
 		});
 	}
+
+	//useEffect(() => {
+		if (user != null) {
+			paths.push({
+					path: '/profile',
+					name: 'Profile',
+					icon: <PersonIcon />
+				})
+		}
+	//}, [])
 
 	const handleToggleExpand = (): void => {
 		setExpanded(prev => !prev);
@@ -110,6 +134,8 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 					})
 				}
 			</div>
+			
+				<br />
 			<div className={`expand-arrow-wrapper ${expanded ? 'row' : 'col'}`}>
 				{
 					user === null && !userLoading ? (
@@ -122,14 +148,19 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 							}
 						</button>
 					) : (
+						<>
+					
 						<button className={`sign-out-button ${!expanded ? 'expanded' : ''}`} onClick={handleSignOut}>
 							<LogoutRoundedIcon />
 							{
 								expanded ? (
+									<>
 									<span>Sign out</span>
+									</>
 								) : <></>
 							}
 						</button>
+						</>
 					)
 				}
 				<button className={`expand-arrow ${!expanded ? 'expanded' : ''}`} onClick={handleToggleExpand}>
