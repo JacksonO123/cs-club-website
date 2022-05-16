@@ -12,7 +12,13 @@ interface AdminType {
   uid: string;
 }
 
+interface PointsType {
+  name: string;
+  points: number;
+}
+
 export type {
   AnnouncementType,
-  AdminType
+  AdminType,
+  PointsType
 }

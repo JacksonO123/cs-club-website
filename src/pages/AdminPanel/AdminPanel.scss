@@ -6,11 +6,12 @@
 		.admin-cards {
 			display: flex;
 			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: flex-start;
 			gap: 24px;
 			.profile-box {
 				display: flex;
 				flex-direction: row;
-				align-items: flex-start;
 				justify-content: space-between;
 				padding: 8px;
 				border: 1px solid rgba(0, 0, 0, 0.125);

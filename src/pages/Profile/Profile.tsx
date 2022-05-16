@@ -7,40 +7,37 @@ interface Props {
 }
 
 export default function Profile({ user }: Props) {
-    const [points, setPoints] = useState(null);
-    const [updated, setUpdated] = useState(false);
+
+    const [points, setPoints] = useState<number | null>(null);
+
+    const handleAddPoints = (): void => {
+        addPoints(user.uid, user.displayName, 50);
+    }
+
     useEffect(() => {
-        getPoints("" + user.uid).then(data => {
-            console.log(data);
-            setPoints(data.points);
-        })
-        .catch(err => console.log(err))
-       // addPoints("" + user.uid, user.displayName, 50)
-    }, [updated])
+        async function handleGetPoints(): Promise<void> {
+            const points = await getPoints(user?.uid);
+            setPoints(points);
+        }
+        handleGetPoints();
+    }, [user])
+
     return (
         <div>
-          
-                {
-                    user ? (
-                        <>
-                           <h1>Signed in as { user.displayName } </h1>
-                            <br/>
-                            Points: {points}
-                            <button  onClick={() => {
-                                addPoints(user.uid, user.displayName, 50)
-                                    .then(() => {
-
-                                        setUpdated(prev => !prev);
-                                    })
-                            }}> Get 50 points</button>
-                        </>
-                    ) : (
-                        <>
-                            Not signed in
-                        </>
-                    )
-                }
-          
+            {
+                user ? (
+                    <>
+                        <h1>Signed in as { user.displayName }</h1>
+                        <br/>
+                        Points: {points}
+                        <button  onClick={handleAddPoints}>Get 50 points</button>
+                    </>
+                ) : (
+                    <>
+                        Not signed in
+                    </>
+                )
+            }
         </div>
-    )
+    );
 }

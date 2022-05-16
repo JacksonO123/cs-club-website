@@ -23,7 +23,7 @@ export default function AdminPanel({ isAdmin }: Props) {
   const [admins, setAdmins] = useState<AdminType[]>([]);
 
   const adminCardStyle = {
-    minWidth: 500,
+    minWidth: 400,
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',

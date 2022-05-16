@@ -18,7 +18,8 @@ import {
 } from 'firebase/firestore';
 import type {
 	AnnouncementType,
-	AdminType
+	AdminType,
+	PointsType
 } from './interfaces';
 
 const config = {
@@ -121,28 +122,31 @@ const getAdminObjs = async (): Promise<AdminType[]> => {
 	return admins;
 }
 
-export const getLeaderboard = async () => {
-	const leaderboard:any[] = [];
+export const getLeaderboard = async (): Promise<PointsType[]> => {
+	const leaderboard: any[] = [];
 	const snap = await getDocs(collection(db, "points"));
-	snap.forEach(request => {
+	snap.forEach((request) => {
 		leaderboard.push(request.data());
-	})
+	});
 	return leaderboard;
 }
 
-export const getPoints = async (uid: string) => {
+export const getPoints = async (uid: string): Promise<number> => {
+	if (!uid) return 0;
 	const snap = await getDoc(doc(db, "points", uid));
 	if (snap.exists()) {
-		return snap.data();
+		return snap.data().points;
 	}
-	else {
-		return {points:0};
-	}
+	return 0;
 }
 
-export const addPoints = async(uid:string, name:string, amount:number) => {
-	const data = await getPoints(uid);
-	await setDoc(doc(collection(db, "points"), uid), {points: data.points! + amount, name});
+export const addPoints = async (uid: string, name: string, amount: number): Promise<void> => {
+	const points = await getPoints(uid);
+	const newPoints: PointsType = {
+		points: points + amount,
+		name
+	}
+	await setDoc(doc(collection(db, "points"), uid), newPoints);
 }
 
 export {
