@@ -8,6 +8,7 @@ interface Props {
 
 export default function Profile({ user }: Props) {
     const [points, setPoints] = useState(null);
+    const [updated, setUpdated] = useState(false);
     useEffect(() => {
         getPoints("" + user.uid).then(data => {
             console.log(data);
@@ -15,7 +16,7 @@ export default function Profile({ user }: Props) {
         })
         .catch(err => console.log(err))
        // addPoints("" + user.uid, user.displayName, 50)
-    }, [])
+    }, [updated])
     return (
         <div>
           
@@ -25,7 +26,13 @@ export default function Profile({ user }: Props) {
                            <h1>Signed in as { user.displayName } </h1>
                             <br/>
                             Points: {points}
-                            
+                            <button  onClick={() => {
+                                addPoints(user.uid, user.displayName, 50)
+                                    .then(() => {
+
+                                        setUpdated(prev => !prev);
+                                    })
+                            }}> Get 50 points</button>
                         </>
                     ) : (
                         <>
