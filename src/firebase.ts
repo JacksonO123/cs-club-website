@@ -15,6 +15,8 @@ import {
 	getFirestore,
 	deleteDoc,
 	addDoc,
+	limit,
+	query
 } from 'firebase/firestore';
 import { User } from "./classes";
 import type {
@@ -67,8 +69,10 @@ const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
 
 const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 	let announcements: any[] = [];
-	const announcementsCol = await getDocs(collection(db, 'announcements'));
-	announcementsCol.forEach(announcement => {
+	const announcementsColRef = collection(db, 'announcements');
+	const announcementsQuery = await query(announcementsColRef, limit(80));
+	const announcementsSnap = await getDocs(announcementsQuery);
+	announcementsSnap.forEach((announcement: any) => {
 		announcements.push(announcement.data());
 	});
 	return announcements;

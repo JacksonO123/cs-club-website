@@ -27,7 +27,8 @@ export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
 			from: user.displayName,
 			fromPhotoUrl: user.photoURL,
 			content: content,
-			timestamp: `${new Date().getHours()}:${new Date().getMinutes()} ${new Date().getMonth()+1}/${new Date().getDate()}/${new Date().getFullYear()}`
+			date: `${new Date().getHours()}:${new Date().getMinutes()} ${new Date().getMonth()+1}/${new Date().getDate()}/${new Date().getFullYear()}`,
+			timestamp: new Date().getTime()
 		}
 		addAnnouncement(newAnnouncement);
 		onSubmit();

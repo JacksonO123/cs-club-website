@@ -2,7 +2,8 @@ interface AnnouncementType {
   from: string;
   fromPhotoUrl: string;
   content: string;
-  timestamp: string;
+  date: string;
+  timestamp: number;
 }
 
 interface AdminType {
