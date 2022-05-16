@@ -22,7 +22,7 @@ export default function Home({ user, isAdmin }: Props) {
 		<div className="home">
 			<h1>Home</h1>
 			{
-				!isAdmin ? (
+				!isAdmin && user ? (
 					<Card sx={{display: 'flex', gap: '10px', flexDirection: 'column', alignItems: 'flex-start'}}>
 						<h2>Request Admin Permissions</h2>
 						<Button

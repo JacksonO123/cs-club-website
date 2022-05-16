@@ -68,7 +68,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                         <div className="profile-box" key={`${index}-request-index`}>
                           <div className="info">
                             <div className="profile row">
-                              <Avatar src={request.photoUrl} sx={{width: 32, height: 32}}></Avatar>
+                              <img alt="" src={request.photoUrl} style={{borderRadius: 100, width: 32, height: 32}}></img>
                               <h3>{request.name}</h3>
                             </div>
                             <p>{request.email}</p>

@@ -125,8 +125,6 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 					})
 				}
 			</div>
-			
-				<br />
 			<div className={`expand-arrow-wrapper ${expanded ? 'row' : 'col'}`}>
 				{
 					user === null && !userLoading ? (
