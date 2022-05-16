@@ -51,11 +51,6 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 			icon: <ViewModuleRoundedIcon />
 		},
 		{
-			path: '/about',
-			name: 'About',
-			icon: <InfoRoundedIcon />
-		},
-		{
 			path: '/problems',
 			name: 'Problems',
 			icon: <PriorityHighRoundedIcon />
@@ -67,14 +62,6 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 			name: 'Admin Panel',
 			icon: <AdminPanelSettingsRoundedIcon />
 		});
-	}
-
-	if (user != null) {
-		paths.push({
-				path: '/profile',
-				name: 'Profile',
-				icon: <PersonIcon />
-			})
 	}
 
 	const handleToggleExpand = (): void => {

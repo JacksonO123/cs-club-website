@@ -2,4 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  .points {
+    .current-points {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      sub {
+        color: #868e96;
+      }
+    }
+  }
 }
