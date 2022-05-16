@@ -121,6 +121,30 @@ const getAdminObjs = async (): Promise<AdminType[]> => {
 	return admins;
 }
 
+export const getLeaderboard = async () => {
+	const leaderboard:any[] = [];
+	const snap = await getDocs(collection(db, "points"));
+	snap.forEach(request => {
+		leaderboard.push(request.data());
+	})
+	return leaderboard;
+}
+
+export const getPoints = async (uid: string) => {
+	const snap = await getDoc(doc(db, "points", uid));
+	if (snap.exists()) {
+		return snap.data();
+	}
+	else {
+		return {points:0};
+	}
+}
+
+export const addPoints = async(uid:string, name:string, amount:number) => {
+	const data = await getPoints(uid);
+	await setDoc(doc(collection(db, "points"), uid), {points: data.points! + amount, name});
+}
+
 export {
 	signIn,
 	getUser,
