@@ -15,14 +15,14 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const checkIfAdmin = async (): Promise<void> => {
-    const tempIsAdmin = await getIsAdmin(user?.uid);
-    setIsAdmin(tempIsAdmin);
-  }
 
   useEffect((): void => {
+    async function checkIfAdmin(): Promise<void> {
+      const tempIsAdmin = await getIsAdmin(user?.uid);
+      setIsAdmin(tempIsAdmin);
+    }
     checkIfAdmin();
-  }, [user]);
+  }, [user?.uid]);
 
   return (
     <div className="app col">

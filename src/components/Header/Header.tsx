@@ -5,7 +5,7 @@ export default function Header() {
 	return (
 		<header>
 			<div>
-				<img src={mvhsLogo}></img>
+				<img src={mvhsLogo} alt=""></img>
 				<p>MVHS CS Club</p>
 			</div>
 		</header>

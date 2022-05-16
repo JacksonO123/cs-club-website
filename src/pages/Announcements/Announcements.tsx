@@ -31,13 +31,12 @@ export default function Annoucements({ user }: Props) {
 		setAddingAnnouncement(false);
 	}
 
-	const handleGetAnnouncements = async (): Promise<void> => {
-		const tempAnnouncements = await getAnnouncements();
-		setAnnouncements(tempAnnouncements);
-		console.log(announcements);
-	}
 
 	useEffect(() => {
+		async function handleGetAnnouncements(): Promise<void> {
+			const tempAnnouncements = await getAnnouncements();
+			setAnnouncements(tempAnnouncements);
+		}
 		handleGetAnnouncements();
 	}, []);
 

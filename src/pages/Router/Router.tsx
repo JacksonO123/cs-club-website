@@ -26,8 +26,8 @@ export default function Router({ user, isAdmin }: Props) {
 				<Route path="/about" element={<About />} />
 				<Route path="/programs" element={<Programs />} />
 				<Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
-				<Route path = "/problems" element = {<Problems />} />
-				<Route path = "/profile" element = {<Profile />} />
+				<Route path="/problems" element={<Problems />} />
+				<Route path="/profile" element={<Profile user={user} />} />
 				<Route path="*" element={<The404Page />} />
 			</Routes>
 		</div>

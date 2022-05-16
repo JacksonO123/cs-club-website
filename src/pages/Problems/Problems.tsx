@@ -2,8 +2,6 @@ import "./Problems.scss"
 
 export default function Problems() {
     return (
-        <div id = "problems">
-        
-        </div>
-    )
+        <div className="problems"></div>
+    );
 }

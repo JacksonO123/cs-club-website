@@ -1,6 +1,6 @@
 import './Sidebar.scss';
 import CustomLink from '../CustomLink/CustomLink';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
@@ -10,10 +10,9 @@ import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import PersonIcon from '@mui/icons-material/Person';
+import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
 import {
-	getUser,
 	signIn,
 	signOut,
 } from '../../firebase';
@@ -28,7 +27,6 @@ interface Props {
 export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 
 	const location = useLocation();
-	//const user 
 	const [pathname, setPathname] = useState<string>(location.pathname);
 	const [expanded, setExpanded] = useState<boolean>(true);
 	let paths = [
@@ -60,13 +58,8 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 		{
 			path: '/problems',
 			name: 'Problems',
-			icon: <FitnessCenterIcon />
+			icon: <PriorityHighRoundedIcon />
 		},
-		// {
-		// 	path: '/profile',
-		// 	name: 'Profile',
-		// 	icon: <PersonIcon />
-		// },
 	];
 	if (isAdmin) {
 		paths.push({
@@ -76,15 +69,13 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 		});
 	}
 
-	//useEffect(() => {
-		if (user != null) {
-			paths.push({
-					path: '/profile',
-					name: 'Profile',
-					icon: <PersonIcon />
-				})
-		}
-	//}, [])
+	if (user != null) {
+		paths.push({
+				path: '/profile',
+				name: 'Profile',
+				icon: <PersonIcon />
+			})
+	}
 
 	const handleToggleExpand = (): void => {
 		setExpanded(prev => !prev);

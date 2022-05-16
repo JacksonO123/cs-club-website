@@ -1,7 +1,6 @@
 import './Announcement.scss';
 import type { AnnouncementType } from '../../interfaces';
 import Card from '../../components/Card/Card';
-import { useEffect, useState } from 'react';
 
 interface Props {
   announcement: AnnouncementType;
@@ -14,6 +13,7 @@ export default function AnnouncementEl({ announcement }: Props) {
         <img
           src={announcement.fromPhotoUrl}
           referrerPolicy="no-referrer"
+          alt=""
         />
         <span className="from-name">{announcement.from}</span>
         <span className="timestamp">{announcement.timestamp}</span>

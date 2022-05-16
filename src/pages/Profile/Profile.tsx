@@ -1,22 +1,25 @@
-import { useEffect, useState } from "react";
-import { getUser} from "../../firebase";
+import './Profile.scss';
 
-export interface UserStats {
-    points: number;
+interface Props {
+    user: any;
 }
 
-export default function Profile() {
-    const [data, setData] = useState<any>(null);
-   
+export default function Profile({ user }: Props) {
     return (
         <div>
             <h1>
-     
-
-            Signed in as {getUser() && getUser()!.displayName}
-
+                {
+                    user ? (
+                        <>
+                            Signed in as { user.displayName }
+                        </>
+                    ) : (
+                        <>
+                            Not signed in
+                        </>
+                    )
+                }
             </h1>
-           
         </div>
     )
 }
