@@ -10,9 +10,10 @@ import Announcement from './Announcement';
 
 interface Props {
 	user: any;
+	isAdmin: boolean;
 }
 
-export default function Annoucements({ user }: Props) {
+export default function Annoucements({ user, isAdmin }: Props) {
 
 	const [announcements, setAnnouncements] = useState<any[]>([]);
 	const [addingAnnouncement, setAddingAnnouncement] = useState<boolean>(false);
@@ -60,9 +61,13 @@ export default function Annoucements({ user }: Props) {
 					<h1>No announcements yet.</h1>
 				)
 			}
-			<Fab sx={fabStyles} color="primary" onClick={handleAddingAnnouncement}>
-				<AddIcon />
-			</Fab>
+			{
+				isAdmin ? (
+					<Fab sx={fabStyles} color="primary" onClick={handleAddingAnnouncement}>
+						<AddIcon />
+					</Fab>
+				) : <></>
+			}
 		</div>
 	);
 }

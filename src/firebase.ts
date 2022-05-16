@@ -16,7 +16,10 @@ import {
 	deleteDoc,
 	addDoc,
 } from 'firebase/firestore';
-import type { AnnouncementType } from './interfaces';
+import type {
+	AnnouncementType,
+	AdminType
+} from './interfaces';
 
 const config = {
 	apiKey: "AIzaSyDV-jaVv4Nfs-VJGw5AxUve0QonRfeZDLg",
@@ -69,27 +72,34 @@ const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 }
 
 const requestAdminPermissions = (user: any) => {
-	const request = {
+	const request: AdminType = {
 		name: user.displayName,
 		email: user.email,
 		photoUrl: user.photoURL,
-		uid: user.uid
+		uid: user.uid,
 	}
-	console.log(request);
 	setDoc(doc(db, 'admins', 'requests', 'requests', user.uid), request);
 }
 
-const approveRequest = async (uid: string): Promise<void> => {
+const approveAdminRequest = async (user: any): Promise<void> => {
+	const uid = user.uid;
 	const admins = await getDoc(doc(db, 'admins', 'admins'));
 	let ids: string[] = admins.data()?.ids;
 	if (!ids.includes(uid)) {
+		const adminObj: AdminType = {
+			name: user.name,
+			email: user.email,
+			photoUrl: user.photoUrl,
+			uid
+		}
 		ids.push(uid);
 		setDoc(doc(db, 'admins', 'admins'), { ids });
+		setDoc(doc(db, 'admins', 'admins', 'admins', uid), adminObj);
 	}
 	deleteDoc(doc(db, 'admins', 'requests', 'requests', uid));
 }
 
-const getRequests = async (): Promise<any[]> => {
+const getRequests = async (): Promise<AdminType[]> => {
 	const requests: any[] = [];
 	const requestsCol = await getDocs(collection(db, 'admins', 'requests', 'requests'));
 	requestsCol.forEach(request => {
@@ -102,6 +112,15 @@ const addAnnouncement = async (announcement: AnnouncementType): Promise<void> =>
 	addDoc(collection(db, 'announcements'), announcement);
 }
 
+const getAdminObjs = async (): Promise<AdminType[]> => {
+	let admins: any[] = [];
+	const adminsCol = await getDocs(collection(db, 'admins', 'admins', 'admins'));
+	adminsCol.forEach(admin => {
+		admins.push(admin.data());
+	});
+	return admins;
+}
+
 export {
 	signIn,
 	getUser,
@@ -111,7 +130,8 @@ export {
 	getAnnouncements,
 	requestAdminPermissions,
 	getRequests,
-	approveRequest,
+	approveAdminRequest,
 	addAnnouncement,
-	db
+	db,
+	getAdminObjs
 }

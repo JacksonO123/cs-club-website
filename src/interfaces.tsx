@@ -5,6 +5,14 @@ interface AnnouncementType {
   timestamp: string;
 }
 
+interface AdminType {
+  name: string;
+  photoUrl: string;
+  email: string;
+  uid: string;
+}
+
 export type {
-  AnnouncementType
+  AnnouncementType,
+  AdminType
 }

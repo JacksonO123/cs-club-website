@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import {
   getRequests,
-  approveRequest
+  approveAdminRequest,
+  getAdminObjs
 } from '../../firebase';
+import type { AdminType } from '../../interfaces';
 
 interface Props {
   isAdmin: boolean;
@@ -18,26 +20,37 @@ interface Props {
 export default function AdminPanel({ isAdmin }: Props) {
 
   const [requests, setRequests] = useState<any[]>([]);
+  const [admins, setAdmins] = useState<AdminType[]>([]);
 
-  const requestCardStyle = {
+  const adminCardStyle = {
     minWidth: 500,
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
   }
 
-  const handleGetRequests = async (): Promise<void> => {
-    const tempRequests = await getRequests();
-    setRequests(tempRequests);
-  }
-
-  const handleApproveRequest = (uid: string, index: number): void => {
-    approveRequest(uid);
+  const handleApproveRequest = (uid: string, name: string, email: string, photoUrl: string, index: number): void => {
+    const requestUser: AdminType = {
+      uid,
+      name,
+      email,
+      photoUrl
+    }
+    approveAdminRequest(requestUser);
     setRequests(prev => prev.filter((_: any, i: number): boolean => i !== index));
   }
 
   useEffect(() => {
+    async function handleGetRequests(): Promise<void> {
+      const tempRequests = await getRequests();
+      setRequests(tempRequests);
+    }
+    async function handleGetAdmins(): Promise<void> {
+      const tempAdmins = await getAdminObjs();
+      setAdmins(tempAdmins);
+    }
     handleGetRequests();
+    handleGetAdmins();
   }, []);
 
   return (
@@ -46,32 +59,56 @@ export default function AdminPanel({ isAdmin }: Props) {
         isAdmin ? (
           <div className="admin-content">
             <h1>Admin Panel</h1>
-            <Card sx={requestCardStyle}>
-              {
-                requests.length > 0 ? (
-                  requests.map((request: any, index: number) => {
-                    return (
-                      <div className="request" key={`${index}-request-index`}>
-                        <div className="info">
-                          <div className="request-profile row">
-                            <Avatar src={request.photoUrl} sx={{width: 32, height: 32}}></Avatar>
-                            <h3>{request.name}</h3>
+            <div className="admin-cards">
+              <Card sx={adminCardStyle}>
+                {
+                  requests.length > 0 ? (
+                    requests.map((request: any, index: number) => {
+                      return (
+                        <div className="profile-box" key={`${index}-request-index`}>
+                          <div className="info">
+                            <div className="profile row">
+                              <Avatar src={request.photoUrl} sx={{width: 32, height: 32}}></Avatar>
+                              <h3>{request.name}</h3>
+                            </div>
+                            <p>{request.email}</p>
                           </div>
-                          <p>{request.email}</p>
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => handleApproveRequest(request.uid, request.name, request.email, request.photoUrl, index)}
+                          >Approve user</Button>
                         </div>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => handleApproveRequest(request.uid, index)}
-                        >Approve user</Button>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <h2>No admin requests</h2>
-                )
-              }
-            </Card>
+                      );
+                    })
+                  ) : (
+                    <h2>No admin requests</h2>
+                  )
+                }
+              </Card>
+              <Card sx={adminCardStyle}>
+                <h2>Current Admins</h2>
+                {
+                  admins.length > 0 ? (
+                    admins.map((admin: AdminType, index: number) => {
+                      return (
+                        <div className="profile-box" key={`${index}-admin-index`}>
+                          <div className="info">
+                            <div className="profile row">
+                              <Avatar src={admin.photoUrl} sx={{width: 32, height: 32}}></Avatar>
+                              <h3>{admin.name}</h3>
+                            </div>
+                            <p>{admin.email}</p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <h2>No admins</h2>
+                  )
+                }
+              </Card>
+             </div>
           </div>
         ) : (
           <h2>Sorry, you do not have the permissions to view this page.</h2>

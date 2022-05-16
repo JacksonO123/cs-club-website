@@ -18,7 +18,20 @@ export default function AnnouncementEl({ announcement }: Props) {
         <span className="from-name">{announcement.from}</span>
         <span className="timestamp">{announcement.timestamp}</span>
       </span>
-      <p>{announcement.content}</p>
+      <p>
+        {
+          announcement.content.split('\n').map((line: string, index: number, array: string[]) => (
+            <span key={`${index}-announcement-line`}>
+              {line}
+              {
+                index < array.length-1
+                ? <br />
+                : <></>
+              }
+            </span>
+          ))
+        }
+      </p>
     </Card>
   );
 }
