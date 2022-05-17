@@ -16,7 +16,7 @@ export default function AnnouncementEl({ announcement }: Props) {
           alt=""
         />
         <span className="from-name">{announcement.from}</span>
-        <span className="timestamp">{announcement.timestamp}</span>
+        <span className="timestamp">{announcement.date}</span>
       </span>
       <p>
         {

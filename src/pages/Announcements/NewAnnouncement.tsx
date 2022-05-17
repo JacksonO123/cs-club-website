@@ -23,11 +23,13 @@ export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
 	}
 
 	const createAnnouncement = async (): Promise<void> => {
+		let date = new Date();
 		const newAnnouncement: AnnouncementType = {
 			from: user.displayName,
 			fromPhotoUrl: user.photoURL,
 			content: content,
-			timestamp: `${new Date().getHours()}:${new Date().getMinutes()} ${new Date().getMonth()+1}/${new Date().getDate()}/${new Date().getFullYear()}`
+			date: `${date.getHours()}:${date.getMinutes()} ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,
+			timestamp: date.getTime()
 		}
 		addAnnouncement(newAnnouncement);
 		onSubmit();
