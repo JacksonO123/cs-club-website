@@ -130,7 +130,7 @@ const getAdminObjs = async (): Promise<AdminType[]> => {
 
 const getLeaderboard = async (): Promise<PointsType[]> => {
 	const leaderboard: any[] = [];
-	const snap = await getDocs(collection(db, "points"));
+	const snap = await getDocs(collection(db, "users"));
 	snap.forEach((request) => {
 		leaderboard.push(request.data());
 	});
@@ -138,7 +138,7 @@ const getLeaderboard = async (): Promise<PointsType[]> => {
 }
 // turn 0;
 
-const getUserData = async (uid: string, name: string): Promise<any> => {
+export const getUserData = async (uid: string, name: string): Promise<any> => {
 	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
 		return snap.data();
@@ -146,8 +146,9 @@ const getUserData = async (uid: string, name: string): Promise<any> => {
 	return new User(uid, name, 0, []);
 }
 
-const addPoints = async (uid: string, name: string, reason: string, amount: number): Promise<void> => {
+export const addPoints = async (uid: string, name: string, reason: string, amount: number): Promise<void> => {
 	const data = await getUserData(uid, name);
+	console.log(data);
 	const newPoints: UserType = {
 		points: data.points + amount,
 		name,
@@ -157,7 +158,7 @@ const addPoints = async (uid: string, name: string, reason: string, amount: numb
 			{amount, reason}
 		]
 	};
-	await setDoc(doc(collection(db, "points"), uid), newPoints);
+	await setDoc(doc(db, "users", uid), newPoints);
 
 	/* {
 		points: points + amount,
@@ -170,7 +171,7 @@ const addPoints = async (uid: string, name: string, reason: string, amount: numb
 	 }
 	*/
 
-	await setDoc(doc(db, "users", uid), {});
+	//await setDoc(doc(db, "users", uid), {});
 }
 
 const getPoints = async (user: any): Promise<number> => {
