@@ -2,19 +2,14 @@ import './App.scss';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Router from './pages/Router/Router';
-import { useAuthState } from 'react-firebase-hooks/auth'
-import {
-  getAuthObj,
-  getIsAdmin
-} from './firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuthObj, getIsAdmin } from './firebase';
 import { useState, useEffect } from 'react';
 
 function App() {
-
   const auth = getAuthObj();
   const [user, loading, error] = useAuthState(auth);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-
 
   useEffect((): void => {
     (async (): Promise<void> => {

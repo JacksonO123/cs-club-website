@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { addPoints, getLeaderboard } from "../../firebase";
-import { PointsType, PointHistory } from "../../interfaces";
+import { useEffect, useState } from 'react';
+import { addPoints, getLeaderboard } from '../../firebase';
+import { PointsType, PointHistory } from '../../interfaces';
 import './Attendance.scss';
 
 

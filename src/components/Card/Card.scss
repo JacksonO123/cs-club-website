@@ -1,5 +1,6 @@
+@import '../../utils.scss';
 .card {
-  padding: 20px;
+  padding: $cardPadding;
   border-radius: 8px;
   // border: 1px solid rgba(0, 0, 0, 0.125);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
