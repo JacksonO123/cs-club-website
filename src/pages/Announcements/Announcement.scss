@@ -10,9 +10,13 @@
     flex-direction: row;
     gap: 8px;
     align-items: center;
+    .from-info {
+      display: flex;
+      flex-direction: column;
+    }
     img {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       object-fit: cover;
     }

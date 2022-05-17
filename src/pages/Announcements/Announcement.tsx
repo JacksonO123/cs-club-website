@@ -15,22 +15,20 @@ export default function AnnouncementEl({ announcement }: Props) {
           referrerPolicy="no-referrer"
           alt=""
         />
-        <span className="from-name">{announcement.from}</span>
-        <span className="timestamp">{announcement.date}</span>
+        <div className="from-info">
+          <span className="from-name">{announcement.from}</span>
+          <span className="timestamp">{announcement.date}</span>
+        </div>
       </span>
       <p>
-        {
-          announcement.content.split('\n').map((line: string, index: number, array: string[]) => (
+        {announcement.content
+          .split('\n')
+          .map((line: string, index: number, array: string[]) => (
             <span key={`${index}-announcement-line`}>
               {line}
-              {
-                index < array.length-1
-                ? <br />
-                : <></>
-              }
+              {index < array.length - 1 ? <br /> : <></>}
             </span>
-          ))
-        }
+          ))}
       </p>
     </Card>
   );
