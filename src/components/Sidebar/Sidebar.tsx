@@ -55,13 +55,20 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
 			name: 'Problems',
 			icon: <PriorityHighRoundedIcon />
 		},
+		
 	];
 	if (isAdmin) {
-		paths.push({
+		paths.push(...[{
 			path: '/admin',
 			name: 'Admin Panel',
 			icon: <AdminPanelSettingsRoundedIcon />
-		});
+		},
+		{
+			path: '/attendance',
+			name: "Attendance",
+			icon: <PersonIcon />
+		}
+	]);
 	}
 
 	const handleToggleExpand = (): void => {
