@@ -20,7 +20,6 @@ export default function Leaderboard() {
 		  <h1>Leaderboard </h1>
 		  	<ul className='leaderboard'>
 			{
-
 				leaderboard.sort((a: PointsType, b:PointsType) => b.points - a.points).map((data: PointsType, i:number) => (
 					<li key={i}>{ data.name } - { data.points }</li>
 				))

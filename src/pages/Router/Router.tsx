@@ -9,6 +9,7 @@ import About from '../About/About';
 import Programs from '../Programs/Programs';
 import AdminPanel from '../AdminPanel/AdminPanel';
 import Problems from '../Problems/Problems';
+import Attendance from '../Attendance/Attendance';
 
 interface Props {
 	user: any;
@@ -26,7 +27,8 @@ export default function Router({ user, isAdmin }: Props) {
 				<Route path="/programs" element={<Programs />} />
 				<Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
 				<Route path="/problems" element={<Problems />} />
-				<Route path="*" element={<The404Page />} />
+				<Route path = "/attendance" element = {<Attendance/>} />
+ 				<Route path="*" element={<The404Page />} />
 			</Routes>
 		</div>
 	);
