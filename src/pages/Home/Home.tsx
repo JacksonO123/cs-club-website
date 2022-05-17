@@ -57,66 +57,30 @@ export default function Home({ user, isAdmin }: Props) {
 
   return (
     <div className="home">
-      {user ? (
-        <>
-          <h1>Signed in as {user.displayName}</h1>
-          <Card className="points" sx={cardStyle}>
-            <div className="points-wrapper">
-              <div className="col current-points">
-                <div className="sub">Points</div>
-                <span>{points}</span>
-              </div>
-              <span
-                className="show-full-history-link"
-                onClick={handleShowFullHistory}
-              >
-                Show all
-                <ChevronRightIcon />
-              </span>
-            </div>
-            <button onClick={handleAddPoints}> + 50 points</button>
-            <div className="history">
-              {history
-                .filter((_: any, index: number): boolean => index < 4)
-                .map((value: PointHistory, index: number) => (
-                  <div key={`${index}-full-history-item`}>
-                    <span>
-                      {value.reason}
-                      <div className="sub">{value.date}</div>
-                    </span>
-                    <span
-                      className={`amount ${
-                        value.amount >= 0 ? 'positive' : 'negative'
-                      }`}
-                    >
-                      {value.amount >= 0
-                        ? `+${value.amount}`
-                        : `-${value.amount}`}
-                    </span>
-                  </div>
-                ))}
-            </div>
-            <Backdrop
-              sx={{
-                color: '#fff',
-                zIndex: (theme: any) => theme.zIndex.drawer + 1,
-              }}
-              open={showingFullHistory}
-              onClick={handleCloseFullHistory}
-            >
-              <Card
-                className="full-history-card"
-                onClick={(e: any) => e.stopPropagation()}
-                onScroll={(e: any) => handleHistoryCardScroll(e)}
-              >
+      <h1>Signed in as {user?.displayName}</h1>
+      <div className="home-cards">
+        {user ? (
+          <>
+            <Card className="points" sx={cardStyle}>
+              <div className="points-wrapper">
+                <div className="col current-points">
+                  <div className="sub">Points</div>
+                  <span>{points}</span>
+                </div>
                 <span
-                  className={`title ${historyScrollTop > 0 ? 'shadow' : ''}`}
+                  className="show-full-history-link"
+                  onClick={handleShowFullHistory}
                 >
-                  <h3>Point history</h3>
+                  Show all
+                  <ChevronRightIcon />
                 </span>
-                <div className="history">
-                  {history.map((value: PointHistory, index: number) => (
-                    <div key={`${index}-history-item`}>
+              </div>
+              <button onClick={handleAddPoints}> + 50 points</button>
+              <div className="history">
+                {history
+                  .filter((_: any, index: number): boolean => index < 4)
+                  .map((value: PointHistory, index: number) => (
+                    <div key={`${index}-full-history-item`}>
                       <span>
                         {value.reason}
                         <div className="sub">{value.date}</div>
@@ -132,35 +96,73 @@ export default function Home({ user, isAdmin }: Props) {
                       </span>
                     </div>
                   ))}
-                </div>
-              </Card>
-            </Backdrop>
-          </Card>
-        </>
-      ) : (
-        <h1>Not logged in</h1>
-      )}
-      {!isAdmin && user ? (
-        <Card
-          sx={{
-            display: 'flex',
-            gap: '10px',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-          }}
-        >
-          <h2>Request Admin Permissions</h2>
-          <Button
-            color="primary"
-            onClick={handleRequestPermissions}
-            variant="outlined"
+              </div>
+              <Backdrop
+                sx={{
+                  color: '#fff',
+                  zIndex: (theme: any) => theme.zIndex.drawer + 1,
+                }}
+                open={showingFullHistory}
+                onClick={handleCloseFullHistory}
+              >
+                <Card
+                  className="full-history-card"
+                  onClick={(e: any) => e.stopPropagation()}
+                  onScroll={(e: any) => handleHistoryCardScroll(e)}
+                >
+                  <span
+                    className={`title ${historyScrollTop > 0 ? 'shadow' : ''}`}
+                  >
+                    <h3>Point history</h3>
+                  </span>
+                  <div className="history">
+                    {history.map((value: PointHistory, index: number) => (
+                      <div key={`${index}-history-item`}>
+                        <span>
+                          {value.reason}
+                          <div className="sub">{value.date}</div>
+                        </span>
+                        <span
+                          className={`amount ${
+                            value.amount >= 0 ? 'positive' : 'negative'
+                          }`}
+                        >
+                          {value.amount >= 0
+                            ? `+${value.amount}`
+                            : `-${value.amount}`}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </Backdrop>
+            </Card>
+          </>
+        ) : (
+          <h1>Not logged in</h1>
+        )}
+        {!isAdmin && user ? (
+          <Card
+            sx={{
+              display: 'flex',
+              gap: '10px',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            }}
           >
-            Request permissions
-          </Button>
-        </Card>
-      ) : (
-        <></>
-      )}
+            <h2>Request Admin Permissions</h2>
+            <Button
+              color="primary"
+              onClick={handleRequestPermissions}
+              variant="outlined"
+            >
+              Request permissions
+            </Button>
+          </Card>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 }
