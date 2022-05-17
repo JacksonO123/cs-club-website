@@ -14,6 +14,18 @@ interface Props {
 	onCancel: Function
 }
 
+function formatTime(time: Date): string {
+	let minutes = `${time.getMinutes()}`;
+	if (minutes.length < 2) {
+		minutes = `${minutes}0`;
+	}
+	let timeString = `${time.getHours()}:${minutes} AM`;
+	if (time.getHours() > 12) {
+		timeString = `${time.getHours() - 12}:${minutes} PM`;
+	}
+	return `${timeString} ${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`
+}
+
 export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
 
 	const [content, setContent] = useState<string>('');
@@ -28,7 +40,7 @@ export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
 			from: user.displayName,
 			fromPhotoUrl: user.photoURL,
 			content: content,
-			date: `${date.getHours()}:${date.getMinutes()} ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`,
+			date: formatTime(date),
 			timestamp: date.getTime()
 		}
 		addAnnouncement(newAnnouncement);
