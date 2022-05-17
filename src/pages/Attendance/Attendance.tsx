@@ -3,9 +3,11 @@ import { addPoints, getLeaderboard } from "../../firebase";
 import { PointsType, PointHistory } from "../../interfaces";
 import './Attendance.scss';
 
-export default function Attendance() {
-    const [members, setMembers] = useState<PointsType[]>([]);
 
+export default function Attendance() {
+    const ATTENDANCE_MESSAGE = "attending meeeting";
+    const [members, setMembers] = useState<PointsType[]>([]);
+	
 	useEffect(() => {	
 		(async function handleGetLeaderboard(): Promise<void> {
 			try {
@@ -18,7 +20,7 @@ export default function Attendance() {
     const checkAlreadyMarked = (member: any): boolean => {
 	let alreadyMarked: boolean = false;
 	member.history.forEach((val: PointHistory) => {
-		if (val.reason === "attending meeting" && val.date === new Date().toLocaleDateString()) {
+		if (val.reason === ATTENDANCE_MESSAGE && val.date === new Date().toLocaleDateString()) {
 			alreadyMarked = true;
 			return;
 		}
@@ -28,7 +30,7 @@ export default function Attendance() {
     const markAsPresent = async (member: any) => {
 	
 	if (!checkAlreadyMarked(member))
-        	await addPoints(member.uid, member.name, "attending meeting", 50);
+        	await addPoints(member.uid, member.name, ATTENDANCE_MESSAGE, 50);
     }
     return (
         <div className="attendance">
