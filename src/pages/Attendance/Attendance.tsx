@@ -58,9 +58,9 @@ export default function Attendance() {
         <Card className="members" sx={memberCardStyle}>
           {members.map(
             (member: any, i: number): React.ReactNode => (
-              <ProfileBox user={member}>
+              <ProfileBox user={member} key={`${i}-attendance-item`}>
                 {checkAlreadyMarked(member) ? (
-                  <></>
+                  <span className="sub">Present</span>
                 ) : (
                   <Button color="success" onClick={() => markAsPresent(member)}>
                     Present
