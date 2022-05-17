@@ -1,4 +1,6 @@
+@import '../../utils.scss';
 .admin {
+	padding: $contentPadding;
 	.admin-content {
 		display: flex;
 		flex-direction: column;

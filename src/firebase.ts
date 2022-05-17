@@ -154,16 +154,22 @@ export const getUserData = async (uid: string, name: string): Promise<any> => {
 export const addPoints = async (uid: string, name: string, reason: string, amount: number): Promise<void> => {
 	const data = await getUserData(uid, name);
 	console.log(data);
-	const newPoints: UserType = {
+	const newUserObj: UserType = {
 		points: data.points + amount,
 		name,
 		uid,
 		history: [
 			...data.history,
-			{amount, reason}
+			{
+				amount,
+				reason,
+				timestamp: Date.now(),
+				date: new Date().toLocaleDateString()
+			}
 		]
 	};
-	await setDoc(doc(db, "users", uid), newPoints);
+	console.log(newUserObj);
+	await setDoc(doc(db, "users", uid), newUserObj);
 
 	/* {
 		points: points + amount,
@@ -175,8 +181,6 @@ export const addPoints = async (uid: string, name: string, reason: string, amoun
 		]
 	 }
 	*/
-
-	//await setDoc(doc(db, "users", uid), {});
 }
 
 const getPoints = async (user: any): Promise<number> => {

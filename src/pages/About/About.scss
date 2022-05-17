@@ -1,4 +1,6 @@
+@import '../../utils.scss';
 .about {
+	padding: $contentPadding;
 	p {
 		font-size: 17px;
 	}

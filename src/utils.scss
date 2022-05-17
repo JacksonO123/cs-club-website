@@ -1,6 +1,8 @@
 $yellow: #ffc107;
 $blue: #007bff;
 $red: rgb(255, 104, 104);
+$headerHeight: 65px;
+$contentPadding: 34px 46px;
 
 .full {
 	width: 100%;
@@ -15,4 +17,9 @@ $red: rgb(255, 104, 104);
 .row {
 	display: flex;
 	flex-direction: row;
+}
+
+.sub {
+  color: #868e96;
+  font-size: smaller;
 }

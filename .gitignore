@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/prettier.config.js
 .pnp.js
 
 # testing

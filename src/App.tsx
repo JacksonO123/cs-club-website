@@ -17,11 +17,10 @@ function App() {
 
 
   useEffect((): void => {
-    async function checkIfAdmin(): Promise<void> {
+    (async (): Promise<void> => {
       const tempIsAdmin = await getIsAdmin(user?.uid);
       setIsAdmin(tempIsAdmin);
-    }
-    checkIfAdmin();
+    })();
   }, [user?.uid]);
 
   return (

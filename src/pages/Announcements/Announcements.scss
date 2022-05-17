@@ -1,6 +1,10 @@
+@import '../../utils.scss';
 .announcements {
   display: flex;
   flex-direction: column;
   gap: 50px;
+  height: 100%;
   align-items: center;
+  overflow-y: scroll;
+	padding: $contentPadding;
 }

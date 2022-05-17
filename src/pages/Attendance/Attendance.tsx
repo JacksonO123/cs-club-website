@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { addPoints, getLeaderboard } from "../../firebase";
 import { PointsType } from "../../interfaces";
+import './Attendance.scss';
 
 export default function Attendance() {
     const [members, setMembers] = useState<PointsType[]>([]);
@@ -19,7 +20,7 @@ export default function Attendance() {
         await addPoints(member.uid, member.name, "attending meeting", 50);
     }
     return (
-        <div>
+        <div className="attendance">
             <h1> Attendance </h1>
             <ul>
                 {members.map((member, i) => (
