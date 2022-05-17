@@ -1,9 +1,10 @@
 import './Home.scss';
 import Card from '../../components/Card/Card';
 import { Button } from '@mui/material';
-import { requestAdminPermissions } from '../../firebase';
+import { addPoints, requestAdminPermissions } from '../../firebase';
 import { useEffect, useState } from 'react';
-import { getPoints } from '../../firebase';
+import { getPoints, getUserData } from '../../firebase';
+import { PointHistory } from '../../interfaces';
 
 interface Props {
   user: any;
@@ -13,6 +14,7 @@ interface Props {
 export default function Home({ user, isAdmin }: Props) {
 
 	const [points, setPoints] = useState<number | null>(null);
+  const [history, setHistory] = useState<PointHistory[]>([]);
 
 	const cardStyle = {
 		minWidth: 400,
@@ -24,11 +26,16 @@ export default function Home({ user, isAdmin }: Props) {
 
 	useEffect(() => {
 		async function handleGetPoints(): Promise<void> {
-			const points = await getPoints(user);
-			setPoints(points);
+			const data = await getUserData(user.uid, user.displayName);
+			setPoints(data.points);
+      setHistory(data.history);
 		}
 		if(user) handleGetPoints();
 	}, [user]);
+
+  const handleAddPoints = () => {
+    addPoints(user.uid, user.displayName, "test", 50);
+  }
 
   return (
     <div className='home'>
@@ -40,8 +47,15 @@ export default function Home({ user, isAdmin }: Props) {
 							<sub>Points</sub>
 							<span>{ points }</span>
 						</div>
+            <button onClick={handleAddPoints}> + 50 points </button>
 						<div className="history">
 							{/* history */}
+              <ol>
+
+              {history.map((value, i) => (
+                <li> Gained {value.amount} pts from "{value.reason}" </li>
+              ))}
+              </ol>
 						</div>
 					</Card>
 				</>
