@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { addPoints, getLeaderboard } from "../../firebase";
-import { PointsType } from "../../interfaces";
+import { PointsType, PointHistory } from "../../interfaces";
 import './Attendance.scss';
 
 export default function Attendance() {
@@ -17,7 +17,7 @@ export default function Attendance() {
 	}, [])
     const checkAlreadyMarked = (member: any): boolean => {
 	let alreadyMarked: boolean = false;
-	member.history.forEach((val) => {
+	member.history.forEach((val: PointHistory) => {
 		if (val.reason === "attending meeting" && val.date === new Date().toLocaleDateString()) {
 			alreadyMarked = true;
 			return;
