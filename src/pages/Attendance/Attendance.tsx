@@ -42,8 +42,7 @@ export default function Attendance() {
               ' Already marked present'
             ) : (
               <button onClick={() => markAsPresent(member)}>
-                {' '}
-                Mark as Present{' '}
+                Mark as Present
               </button>
             )}
           </li>

@@ -57,7 +57,7 @@ export default function Home({ user, isAdmin }: Props) {
 
   return (
     <div className="home">
-      <h1>Signed in as {user?.displayName}</h1>
+      {user ? <h1>Signed in as {user?.displayName}</h1> : <></>}
       <div className="home-cards">
         {user ? (
           <>
