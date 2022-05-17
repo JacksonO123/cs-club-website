@@ -68,13 +68,18 @@ const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
 }
 
 const getAnnouncements = async (): Promise<AnnouncementType[]> => {
-	let announcements: any[] = [];
+	let announcements: AnnouncementType[] = [];
 	const announcementsColRef = collection(db, 'announcements');
 	const announcementsQuery = await query(announcementsColRef, limit(80));
 	const announcementsSnap = await getDocs(announcementsQuery);
 	announcementsSnap.forEach((announcement: any) => {
 		announcements.push(announcement.data());
 	});
+	announcements.sort((a, b) => {
+		if (a.timestamp === null || typeof a.timestamp !== typeof 0) return 1;
+		if (b.timestamp === null || typeof b.timestamp !== typeof 0) return -1;
+		return (b.timestamp - a.timestamp);
+	})
 	return announcements;
 }
 
