@@ -169,13 +169,14 @@ export const addPoints = async (user: any, reason: string, amount: number): Prom
 	console.log(data);
 	const newUserObj: any = {
 		history: [
-			...data.history,
 			{
 				amount,
 				reason,
 				timestamp: Date.now(),
 				date: new Date().toLocaleDateString()
-			}
+			},
+			...data.history
+			
 		]
 	};
 	console.log(newUserObj);
