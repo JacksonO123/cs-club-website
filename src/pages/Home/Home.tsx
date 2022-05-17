@@ -49,9 +49,7 @@ export default function Home({ user, isAdmin }: Props) {
 						</div>
             <button onClick={handleAddPoints}> + 50 points </button>
 						<div className="history">
-							{/* history */}
               <ol>
-
               {history.map((value, i) => (
                 <li> Gained {value.amount} pts from "{value.reason}" </li>
               ))}
