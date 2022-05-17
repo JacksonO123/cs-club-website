@@ -18,6 +18,7 @@ export default function Home({ user, isAdmin }: Props) {
   const [points, setPoints] = useState<number | null>(null);
   const [history, setHistory] = useState<PointHistory[]>([]);
   const [showingFullHistory, setShowingFullHistory] = useState<boolean>(false);
+  const [historyScrollTop, setHistoryScrollTop] = useState<number>(0);
 
   const cardStyle = {
     minWidth: 300,
@@ -32,7 +33,7 @@ export default function Home({ user, isAdmin }: Props) {
     console.log(history);
   };
 
-  const handleCloseFullHistory = () => {
+  const handleCloseFullHistory = (): void => {
     setShowingFullHistory(false);
   };
 
@@ -46,11 +47,13 @@ export default function Home({ user, isAdmin }: Props) {
     }
   }, [user]);
 
-  const handleAddPoints = () => {
+  const handleAddPoints = (): void => {
     addPoints(user.uid, user.displayName, 'test', 50);
   };
 
-  useEffect(() => {}, [history]);
+  const handleHistoryCardScroll = (e: any): void => {
+    setHistoryScrollTop(e.target.scrollTop);
+  };
 
   return (
     <div className="home">
@@ -104,8 +107,13 @@ export default function Home({ user, isAdmin }: Props) {
               <Card
                 className="full-history-card"
                 onClick={(e: any) => e.stopPropagation()}
+                onScroll={(e: any) => handleHistoryCardScroll(e)}
               >
-                <h3>Point history</h3>
+                <span
+                  className={`title ${historyScrollTop > 0 ? 'shadow' : ''}`}
+                >
+                  <h3>Point history</h3>
+                </span>
                 <div className="history">
                   {history.map((value: PointHistory, index: number) => (
                     <div key={`${index}-history-item`}>

@@ -6,6 +6,7 @@ interface Props {
   stretch?: boolean;
   className?: string;
   onClick?: Function;
+  onScroll?: Function;
 }
 
 export default function Card({
@@ -14,10 +15,17 @@ export default function Card({
   stretch = false,
   className,
   onClick,
+  onScroll,
 }: Props) {
   const handleClick = (e: any) => {
     if (onClick) {
       onClick(e);
+    }
+  };
+
+  const handleScroll = (e: any) => {
+    if (onScroll) {
+      onScroll(e);
     }
   };
 
@@ -28,6 +36,7 @@ export default function Card({
       }`}
       style={sx}
       onClick={(e: any) => handleClick(e)}
+      onScroll={(e: any) => handleScroll(e)}
     >
       {children}
     </div>
