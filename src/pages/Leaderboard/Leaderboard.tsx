@@ -7,13 +7,12 @@ export default function Leaderboard() {
 	const [leaderboard, setLeaderboard] = useState<PointsType[]>([]);
 
 	useEffect(() => {	
-		async function handleGetLeaderboard(): Promise<void> {
+		(async (): Promise<void> => {
 			try {
 				const leaderboardData = await getLeaderboard();
 				setLeaderboard(leaderboardData);
 			} catch (e: any) {}
-		}
-		handleGetLeaderboard();
+		})();
 	}, [])
 	return (
 		<div className="leaderboard-page">

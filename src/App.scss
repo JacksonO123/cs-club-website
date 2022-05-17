@@ -1,5 +1,10 @@
+@import './utils.scss';
 .app {
+	max-height: 100vh;
 	&, .content {
 		height: 100%;
+	}
+	.content {
+		max-height: calc(100vh - $headerHeight);
 	}
 }
