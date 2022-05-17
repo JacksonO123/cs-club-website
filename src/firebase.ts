@@ -16,9 +16,9 @@ import {
 	deleteDoc,
 	addDoc,
 	limit,
-	query
+	query,
+	updateDoc
 } from 'firebase/firestore';
-import { User } from "./classes";
 import type {
 	AnnouncementType,
 	AdminType,
@@ -143,21 +143,31 @@ const getLeaderboard = async (): Promise<PointsType[]> => {
 }
 // turn 0;
 
-export const getUserData = async (uid: string, name: string): Promise<any> => {
+export const getUserData = async (user: any): Promise<any> => {
+	const uid = user.uid;
+	const name = user.displayName;
 	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
 		return snap.data();
+	} else {
+		const userObj: UserType = {
+			name,
+			uid,
+			points: 0,
+			history: [],
+			photoUrl: user.photoURL
+		}
+		addDoc(collection(db, "users"), userObj);
+		return userObj;
 	}
-	return new User(uid, name, 0, []);
 }
 
-export const addPoints = async (uid: string, name: string, reason: string, amount: number): Promise<void> => {
-	const data = await getUserData(uid, name);
+export const addPoints = async (user: any, reason: string, amount: number): Promise<void> => {
+	// change this to updateDoc
+	const uid = user.uid;
+	const data = await getUserData(user);
 	console.log(data);
-	const newUserObj: UserType = {
-		points: data.points + amount,
-		name,
-		uid,
+	const newUserObj: any = {
 		history: [
 			...data.history,
 			{
@@ -169,7 +179,7 @@ export const addPoints = async (uid: string, name: string, reason: string, amoun
 		]
 	};
 	console.log(newUserObj);
-	await setDoc(doc(db, "users", uid), newUserObj);
+	await updateDoc(doc(db, "users", uid), newUserObj);
 
 	/* {
 		points: points + amount,
@@ -186,6 +196,7 @@ export const addPoints = async (uid: string, name: string, reason: string, amoun
 const getPoints = async (user: any): Promise<number> => {
 	const name = user.displayName;
 	const uid = user.uid;
+	const photoUrl = user.photoURL;
 	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
 		return snap.data().points;
@@ -194,6 +205,7 @@ const getPoints = async (user: any): Promise<number> => {
 			points: 0,
 			name,
 			uid,
+			photoUrl,
 			history: []
 		};
 		setDoc(doc(db, 'users', uid), newUser)

@@ -29,6 +29,7 @@ interface UserType {
   uid: string;
   name: string;
   points: number;
+  photoUrl: string;
   history: PointHistory[];
 }
 

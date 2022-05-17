@@ -2,9 +2,16 @@
 .announcements {
   display: flex;
   flex-direction: column;
-  gap: 50px;
   height: 100%;
   align-items: center;
   overflow-y: scroll;
 	padding: $contentPadding;
+  gap: 20px;
+  .announcement-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    width: 100%;
+  }
 }

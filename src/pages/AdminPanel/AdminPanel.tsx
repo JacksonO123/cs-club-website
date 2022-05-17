@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Avatar, Button, Chip } from '@mui/material';
 import { getRequests, approveAdminRequest, getAdminObjs } from '../../firebase';
 import type { AdminType } from '../../interfaces';
+import ProfileBox from '../../components/ProfileBox/ProfileBox';
 
 interface Props {
   isAdmin: boolean;
@@ -65,27 +66,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                   <h3>Admin requests</h3>
                   {requests.map((request: any, index: number) => {
                     return (
-                      <div
-                        className="profile-box"
-                        key={`${index}-request-index`}
-                      >
-                        <div className="info">
-                          <div className="profile row">
-                            <img
-                              alt=""
-                              src={request.photoUrl}
-                              style={{
-                                borderRadius: 100,
-                                width: 32,
-                                height: 32,
-                              }}
-                            ></img>
-                            <div className="profile-text">
-                              <span>{request.name}</span>
-                              <div className="sub">{request.email}</div>
-                            </div>
-                          </div>
-                        </div>
+                      <ProfileBox user={request}>
                         <Button
                           color="success"
                           onClick={() =>
@@ -100,7 +81,7 @@ export default function AdminPanel({ isAdmin }: Props) {
                         >
                           Approve user
                         </Button>
-                      </div>
+                      </ProfileBox>
                     );
                   })}
                 </>
@@ -112,22 +93,7 @@ export default function AdminPanel({ isAdmin }: Props) {
               <h3>Current Admins</h3>
               {admins.length > 0 ? (
                 admins.map((admin: AdminType, index: number) => {
-                  return (
-                    <div className="profile-box" key={`${index}-admin-index`}>
-                      <div className="info">
-                        <div className="profile row">
-                          <Avatar
-                            src={admin.photoUrl}
-                            sx={{ width: 32, height: 32 }}
-                          ></Avatar>
-                          <div className="profile-text">
-                            <span>{admin.name}</span>
-                            <div className="sub">{admin.email}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
+                  return <ProfileBox user={admin} />;
                 })
               ) : (
                 <h2>No admins</h2>

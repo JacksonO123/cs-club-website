@@ -58,7 +58,7 @@ export default function Leaderboard() {
                     <span>3</span>
                   </div>
                 ) : (
-                  <div className="place-wrapper">{i}</div>
+                  <div className="place-wrapper">{i + 1}</div>
                 )}
                 <span className="data-wrapper">
                   <span>{data.name}</span>

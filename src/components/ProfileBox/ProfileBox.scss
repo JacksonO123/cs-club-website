@@ -1,0 +1,28 @@
+@import '../../utils.scss';
+.profile-box {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 6px;
+  gap: $itemGap;
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      .profile-text {
+        display: flex;
+        flex-direction: column;
+				.email {
+					max-width: 140px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+      }
+    }
+  }
+}

@@ -1,22 +1,40 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { addPoints, getLeaderboard } from '../../firebase';
-import { PointsType, PointHistory } from '../../interfaces';
+import type { PointsType, PointHistory } from '../../interfaces';
 import './Attendance.scss';
+import { db } from '../../firebase';
+import { onSnapshot, collection } from 'firebase/firestore';
+import Card from '../../components/Card/Card';
+import ProfileBox from '../../components/ProfileBox/ProfileBox';
+import { Button } from '@mui/material';
 
 export default function Attendance() {
   const [members, setMembers] = useState<PointsType[]>([]);
+  const memberCardStyle = {
+    minWidth: 400,
+  };
 
   useEffect(() => {
     (async function handleGetLeaderboard(): Promise<void> {
       try {
         const leaderboardData = await getLeaderboard();
+        console.log(leaderboardData);
         setMembers(leaderboardData);
       } catch (e: any) {}
     })();
+    onSnapshot(collection(db, 'users'), (snap: any) => {
+      const data = snap.docs.map((doc: any) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setMembers(data);
+    });
   }, []);
+
   const checkAlreadyMarked = (member: any): boolean => {
     let alreadyMarked: boolean = false;
-    member.history.forEach((val: PointHistory) => {
+    member.history.forEach((val: PointHistory, index: number) => {
       if (
         val.reason === 'attending meeting' &&
         val.date === new Date().toLocaleDateString()
@@ -27,27 +45,32 @@ export default function Attendance() {
     });
     return alreadyMarked;
   };
+
   const markAsPresent = async (member: any) => {
     if (!checkAlreadyMarked(member))
-      await addPoints(member.uid, member.name, 'attending meeting', 50);
+      await addPoints(member, 'attending meeting', 50);
   };
+
   return (
     <div className="attendance">
       <h1> Attendance for {new Date().toLocaleDateString()}</h1>
-      <ul>
-        {members.map((member, i) => (
-          <li key={i}>
-            {member.name}
-            {checkAlreadyMarked(member) ? (
-              ' Already marked present'
-            ) : (
-              <button onClick={() => markAsPresent(member)}>
-                Mark as Present
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="attendance-cards">
+        <Card className="members" sx={memberCardStyle}>
+          {members.map(
+            (member: any, i: number): React.ReactNode => (
+              <ProfileBox user={member}>
+                {checkAlreadyMarked(member) ? (
+                  <></>
+                ) : (
+                  <Button color="success" onClick={() => markAsPresent(member)}>
+                    Present
+                  </Button>
+                )}
+              </ProfileBox>
+            )
+          )}
+        </Card>
+      </div>
     </div>
   );
 }

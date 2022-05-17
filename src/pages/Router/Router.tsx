@@ -12,24 +12,27 @@ import Problems from '../Problems/Problems';
 import Attendance from '../Attendance/Attendance';
 
 interface Props {
-	user: any;
-	isAdmin: boolean;
+  user: any;
+  isAdmin: boolean;
 }
 
 export default function Router({ user, isAdmin }: Props) {
-	return (
-		<div className="full router-wrapper">
-			<Routes>
-				<Route path="/" element={<Home user={user} isAdmin={isAdmin} />} />
-				<Route path="/announcements" element={<Announcements user={user} isAdmin={isAdmin} />} />
-				<Route path="/leaderboard" element={<Leaderboard />} />
-				<Route path="/about" element={<About />} />
-				<Route path="/programs" element={<Programs />} />
-				<Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
-				<Route path="/problems" element={<Problems />} />
-				<Route path = "/attendance" element = {<Attendance/>} />
- 				<Route path="*" element={<The404Page />} />
-			</Routes>
-		</div>
-	);
+  return (
+    <div className="full router-wrapper">
+      <Routes>
+        <Route path="/" element={<Home user={user} isAdmin={isAdmin} />} />
+        <Route
+          path="/announcements"
+          element={<Announcements user={user} isAdmin={isAdmin} />}
+        />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/programs" element={<Programs />} />
+        <Route path="/admin" element={<AdminPanel isAdmin={isAdmin} />} />
+        <Route path="/problems" element={<Problems />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="*" element={<The404Page />} />
+      </Routes>
+    </div>
+  );
 }

@@ -1,4 +1,11 @@
 @import '../../utils.scss';
 .attendance {
   padding: $contentPadding;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .attendance-cards {
+    display: flex;
+    gap: 24px;
+  }
 }

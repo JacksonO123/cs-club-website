@@ -4,35 +4,13 @@
 	.admin-content {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 12px;
 		.admin-cards {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
 			align-items: flex-start;
-			gap: 28px;
-			.profile-box {
-				display: flex;
-				flex-direction: row;
-				align-items: flex-start;
-				justify-content: space-between;
-				border-radius: 6px;
-				gap: $itemGap;
-				.info {
-					display: flex;
-					flex-direction: column;
-					gap: 8px;
-					.profile {
-						display: flex;
-						align-items: center;
-						gap: 10px;
-						.profile-text {
-							display: flex;
-							flex-direction: column;
-						}
-					}
-				}
-			}
+			gap: 24px;
 		}
 	}
 }

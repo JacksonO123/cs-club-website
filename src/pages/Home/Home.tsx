@@ -2,7 +2,7 @@ import './Home.scss';
 import '../../utils.scss';
 import Card from '../../components/Card/Card';
 import { Button } from '@mui/material';
-import { addPoints, requestAdminPermissions } from '../../firebase';
+import { requestAdminPermissions } from '../../firebase';
 import { useEffect, useState } from 'react';
 import { getUserData } from '../../firebase';
 import { PointHistory } from '../../interfaces';
@@ -40,16 +40,12 @@ export default function Home({ user, isAdmin }: Props) {
   useEffect(() => {
     if (user) {
       (async (): Promise<void> => {
-        const data = await getUserData(user.uid, user.displayName);
+        const data = await getUserData(user);
         setPoints(data.points);
         setHistory(data.history);
       })();
     }
   }, [user]);
-
-  const handleAddPoints = (): void => {
-    addPoints(user.uid, user.displayName, 'test', 50);
-  };
 
   const handleHistoryCardScroll = (e: any): void => {
     setHistoryScrollTop(e.target.scrollTop);
@@ -75,27 +71,30 @@ export default function Home({ user, isAdmin }: Props) {
                   <ChevronRightIcon />
                 </span>
               </div>
-              <button onClick={handleAddPoints}> + 50 points</button>
               <div className="history">
-                {history
-                  .filter((_: any, index: number): boolean => index < 4)
-                  .map((value: PointHistory, index: number) => (
-                    <div key={`${index}-full-history-item`}>
-                      <span>
-                        {value.reason}
-                        <div className="sub">{value.date}</div>
-                      </span>
-                      <span
-                        className={`amount ${
-                          value.amount >= 0 ? 'positive' : 'negative'
-                        }`}
-                      >
-                        {value.amount >= 0
-                          ? `+${value.amount}`
-                          : `-${value.amount}`}
-                      </span>
-                    </div>
-                  ))}
+                {history.length > 0 ? (
+                  history
+                    .filter((_: any, index: number): boolean => index < 4)
+                    .map((value: PointHistory, index: number) => (
+                      <div key={`${index}-full-history-item`}>
+                        <span>
+                          {value.reason}
+                          <div className="sub">{value.date}</div>
+                        </span>
+                        <span
+                          className={`amount ${
+                            value.amount >= 0 ? 'positive' : 'negative'
+                          }`}
+                        >
+                          {value.amount >= 0
+                            ? `+${value.amount}`
+                            : `-${value.amount}`}
+                        </span>
+                      </div>
+                    ))
+                ) : (
+                  <h4>No history</h4>
+                )}
               </div>
               <Backdrop
                 sx={{
@@ -116,23 +115,27 @@ export default function Home({ user, isAdmin }: Props) {
                     <h3>Point history</h3>
                   </span>
                   <div className="history">
-                    {history.map((value: PointHistory, index: number) => (
-                      <div key={`${index}-history-item`}>
-                        <span>
-                          {value.reason}
-                          <div className="sub">{value.date}</div>
-                        </span>
-                        <span
-                          className={`amount ${
-                            value.amount >= 0 ? 'positive' : 'negative'
-                          }`}
-                        >
-                          {value.amount >= 0
-                            ? `+${value.amount}`
-                            : `-${value.amount}`}
-                        </span>
-                      </div>
-                    ))}
+                    {history.length > 0 ? (
+                      history.map((value: PointHistory, index: number) => (
+                        <div key={`${index}-history-item`}>
+                          <span>
+                            {value.reason}
+                            <div className="sub">{value.date}</div>
+                          </span>
+                          <span
+                            className={`amount ${
+                              value.amount >= 0 ? 'positive' : 'negative'
+                            }`}
+                          >
+                            {value.amount >= 0
+                              ? `+${value.amount}`
+                              : `-${value.amount}`}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <h4>No history</h4>
+                    )}
                   </div>
                 </Card>
               </Backdrop>
@@ -148,9 +151,10 @@ export default function Home({ user, isAdmin }: Props) {
               gap: '10px',
               flexDirection: 'column',
               alignItems: 'flex-start',
+              minWidth: 300,
             }}
           >
-            <h2>Request Admin Permissions</h2>
+            <h3>Request Admin Permissions</h3>
             <Button
               color="primary"
               onClick={handleRequestPermissions}
