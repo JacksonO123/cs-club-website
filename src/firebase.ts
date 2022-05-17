@@ -159,13 +159,14 @@ export const addPoints = async (uid: string, name: string, reason: string, amoun
 		name,
 		uid,
 		history: [
-			...data.history,
 			{
 				amount,
 				reason,
 				timestamp: Date.now(),
 				date: new Date().toLocaleDateString()
-			}
+			},
+			...data.history
+			
 		]
 	};
 	console.log(newUserObj);
