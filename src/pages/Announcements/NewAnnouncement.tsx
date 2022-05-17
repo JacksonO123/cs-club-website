@@ -17,7 +17,7 @@ interface Props {
 function formatTime(time: Date): string {
 	let minutes = `${time.getMinutes()}`;
 	if (minutes.length < 2) {
-		minutes = `${minutes}0`;
+		minutes = `0${minutes}`;
 	}
 	let timeString = `${time.getHours()}:${minutes} AM`;
 	if (time.getHours() > 12) {
