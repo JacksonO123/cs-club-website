@@ -10,7 +10,12 @@
 			flex-direction: row;
 			flex-wrap: wrap;
 			align-items: flex-start;
-			gap: 24px;
+			gap: $itemGap;
+			.profile-box-wrapper {
+				display: flex;
+				flex-direction: column;
+				gap: $itemGap;
+			}
 		}
 	}
 }

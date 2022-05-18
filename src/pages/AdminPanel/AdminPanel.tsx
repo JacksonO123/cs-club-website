@@ -93,19 +93,23 @@ export default function AdminPanel({ isAdmin }: Props) {
               )}
             </Card>
             <Card sx={adminCardStyle}>
-              <h3>Current Admins</h3>
-              {admins.length > 0 ? (
-                admins.map((admin: AdminType, index: number) => {
-                  return (
-                    <ProfileBox
-                      key={`${index}-profile-box-item`}
-                      user={admin}
-                    />
-                  );
-                })
-              ) : (
-                <h2>No admins</h2>
-              )}
+              <>
+                <h3>Current Admins</h3>
+                <div className="profile-box-wrapper">
+                  {admins.length > 0 ? (
+                    admins.map((admin: AdminType, index: number) => {
+                      return (
+                        <ProfileBox
+                          key={`${index}-profile-box-item`}
+                          user={admin}
+                        />
+                      );
+                    })
+                  ) : (
+                    <h2>No admins</h2>
+                  )}
+                </div>
+              </>
             </Card>
           </div>
         </div>
