@@ -40,34 +40,35 @@ const app = initializeApp(config);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const signIn = async () => {
+export const signIn = async () => {
 	await setPersistence(auth, inMemoryPersistence).then(() => {
 		const provider = new GoogleAuthProvider();
 		return signInWithRedirect(auth, provider);
 	});
-	
+	const user = getUser();
+	await getUserData(user);
 };
 
-const getUser = () => {
+export const getUser = () => {
 	return auth.currentUser;
 };
 
-const getAuthObj = (): any => {
+export const getAuthObj = (): any => {
 	return auth;
 };
 
-const signOut = () => {
+export const signOut = () => {
 	auth.signOut();
 }
 
-const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
+export const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
 	if (!uid) return false;
 	const adminDocument = await getDoc(doc(db, 'admins', 'admins'));
 	const adminIds = adminDocument?.data()?.ids;
 	return adminIds?.includes(uid);
 }
 
-const getAnnouncements = async (): Promise<AnnouncementType[]> => {
+export const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 	let announcements: AnnouncementType[] = [];
 	const announcementsColRef = collection(db, 'announcements');
 	const announcementsQuery = await query(announcementsColRef, limit(80));
@@ -83,7 +84,7 @@ const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 	return announcements;
 }
 
-const requestAdminPermissions = (user: any) => {
+export const requestAdminPermissions = (user: any) => {
 	const request: AdminType = {
 		name: user.displayName,
 		email: user.email,
@@ -93,7 +94,7 @@ const requestAdminPermissions = (user: any) => {
 	setDoc(doc(db, 'admins', 'requests', 'requests', user.uid), request);
 }
 
-const approveAdminRequest = async (user: any): Promise<void> => {
+export const approveAdminRequest = async (user: any): Promise<void> => {
 	const uid = user.uid;
 	const admins = await getDoc(doc(db, 'admins', 'admins'));
 	let ids: string[] = admins.data()?.ids;
@@ -111,7 +112,7 @@ const approveAdminRequest = async (user: any): Promise<void> => {
 	deleteDoc(doc(db, 'admins', 'requests', 'requests', uid));
 }
 
-const getRequests = async (): Promise<AdminType[]> => {
+export const getRequests = async (): Promise<AdminType[]> => {
 	const requests: any[] = [];
 	const requestsCol = await getDocs(collection(db, 'admins', 'requests', 'requests'));
 	requestsCol.forEach(request => {
@@ -120,11 +121,11 @@ const getRequests = async (): Promise<AdminType[]> => {
 	return requests;
 }
 
-const addAnnouncement = async (announcement: AnnouncementType): Promise<void> => {
+export const addAnnouncement = async (announcement: AnnouncementType): Promise<void> => {
 	addDoc(collection(db, 'announcements'), announcement);
 }
 
-const getAdminObjs = async (): Promise<AdminType[]> => {
+export const getAdminObjs = async (): Promise<AdminType[]> => {
 	let admins: any[] = [];
 	const adminsCol = await getDocs(collection(db, 'admins', 'admins', 'admins'));
 	adminsCol.forEach(admin => {
@@ -133,7 +134,7 @@ const getAdminObjs = async (): Promise<AdminType[]> => {
 	return admins;
 }
 
-const getLeaderboard = async (): Promise<PointsType[]> => {
+export const getLeaderboard = async (): Promise<UserType[]> => {
 	const leaderboard: any[] = [];
 	const snap = await getDocs(collection(db, "users"));
 	snap.forEach((request) => {
@@ -141,11 +142,11 @@ const getLeaderboard = async (): Promise<PointsType[]> => {
 	});
 	return leaderboard;
 }
-// turn 0;
 
 export const getUserData = async (user: any): Promise<any> => {
 	const uid = user.uid;
 	const name = user.displayName;
+	const email = user.email;
 	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
 		return snap.data();
@@ -153,11 +154,11 @@ export const getUserData = async (user: any): Promise<any> => {
 		const userObj: UserType = {
 			name,
 			uid,
-			points: 0,
+			email,
 			history: [],
 			photoUrl: user.photoURL
 		}
-		addDoc(collection(db, "users"), userObj);
+		setDoc(doc(db, "users", uid), userObj);
 		return userObj;
 	}
 }
@@ -179,34 +180,23 @@ export const addPoints = async (user: any, reason: string, amount: number): Prom
 			
 		]
 	};
-	console.log(newUserObj);
-	await updateDoc(doc(db, "users", uid), newUserObj);
-
-	/* {
-		points: points + amount,
-		name: string,
-		email: string,
-		uid: string,
-		history: [
-			// history
-		]
-	 }
-	*/
+	updateDoc(doc(db, "users", uid), newUserObj);
 }
 
-const getPoints = async (user: any): Promise<number> => {
+export const getPoints = async (user: any): Promise<number> => {
 	const name = user.displayName;
 	const uid = user.uid;
 	const photoUrl = user.photoURL;
+	const email = user.email;
 	const snap = await getDoc(doc(db, "users", uid));
 	if (snap.exists()) {
 		return snap.data().points;
 	} else {
 		const newUser: UserType = {
-			points: 0,
 			name,
 			uid,
 			photoUrl,
+			email,
 			history: []
 		};
 		setDoc(doc(db, 'users', uid), newUser)
@@ -214,19 +204,4 @@ const getPoints = async (user: any): Promise<number> => {
 	}
 }
 
-export {
-	signIn,
-	getUser,
-	getAuthObj,
-	signOut,
-	getIsAdmin,
-	getAnnouncements,
-	requestAdminPermissions,
-	getRequests,
-	approveAdminRequest,
-	addAnnouncement,
-	db,
-	getAdminObjs,
-	getLeaderboard,
-	getPoints
-}
+export { db };

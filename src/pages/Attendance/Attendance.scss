@@ -7,5 +7,10 @@
   .attendance-cards {
     display: flex;
     gap: 24px;
+    .members {
+      display: flex;
+      flex-direction: column;
+      gap: $itemGap;
+    }
   }
 }

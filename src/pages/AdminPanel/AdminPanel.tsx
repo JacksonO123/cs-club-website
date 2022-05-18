@@ -2,7 +2,7 @@ import './AdminPanel.scss';
 import '../../utils.scss';
 import Card from '../../components/Card/Card';
 import { useState, useEffect } from 'react';
-import { Avatar, Button, Chip } from '@mui/material';
+import { Button } from '@mui/material';
 import { getRequests, approveAdminRequest, getAdminObjs } from '../../firebase';
 import type { AdminType } from '../../interfaces';
 import ProfileBox from '../../components/ProfileBox/ProfileBox';
@@ -66,7 +66,10 @@ export default function AdminPanel({ isAdmin }: Props) {
                   <h3>Admin requests</h3>
                   {requests.map((request: any, index: number) => {
                     return (
-                      <ProfileBox user={request}>
+                      <ProfileBox
+                        user={request}
+                        key={`${index}-admin-request-item`}
+                      >
                         <Button
                           color="success"
                           onClick={() =>
@@ -93,7 +96,12 @@ export default function AdminPanel({ isAdmin }: Props) {
               <h3>Current Admins</h3>
               {admins.length > 0 ? (
                 admins.map((admin: AdminType, index: number) => {
-                  return <ProfileBox user={admin} />;
+                  return (
+                    <ProfileBox
+                      key={`${index}-profile-box-item`}
+                      user={admin}
+                    />
+                  );
                 })
               ) : (
                 <h2>No admins</h2>

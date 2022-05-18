@@ -28,9 +28,9 @@ interface PointHistory {
 interface UserType {
   uid: string;
   name: string;
-  points: number;
   photoUrl: string;
   history: PointHistory[];
+  email: string;
 }
 
 export type {

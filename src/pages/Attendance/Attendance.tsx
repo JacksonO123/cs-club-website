@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { addPoints, getLeaderboard } from '../../firebase';
-import type { PointsType, PointHistory } from '../../interfaces';
+import type { UserType, PointHistory } from '../../interfaces';
 import './Attendance.scss';
 import { db } from '../../firebase';
 import { onSnapshot, collection } from 'firebase/firestore';
@@ -10,7 +10,7 @@ import ProfileBox from '../../components/ProfileBox/ProfileBox';
 import { Button } from '@mui/material';
 
 export default function Attendance() {
-  const [members, setMembers] = useState<PointsType[]>([]);
+  const [members, setMembers] = useState<UserType[]>([]);
   const memberCardStyle = {
     minWidth: 400,
   };
@@ -47,8 +47,9 @@ export default function Attendance() {
   };
 
   const markAsPresent = async (member: any) => {
-    if (!checkAlreadyMarked(member))
+    if (!checkAlreadyMarked(member)) {
       await addPoints(member, 'attending meeting', 50);
+    }
   };
 
   return (

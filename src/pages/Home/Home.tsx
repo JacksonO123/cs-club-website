@@ -2,7 +2,7 @@ import './Home.scss';
 import '../../utils.scss';
 import Card from '../../components/Card/Card';
 import { Button } from '@mui/material';
-import { requestAdminPermissions } from '../../firebase';
+import { addPoints, requestAdminPermissions } from '../../firebase';
 import { useEffect, useState } from 'react';
 import { getUserData } from '../../firebase';
 import { PointHistory } from '../../interfaces';
@@ -41,7 +41,10 @@ export default function Home({ user, isAdmin }: Props) {
     if (user) {
       (async (): Promise<void> => {
         const data = await getUserData(user);
-        setPoints(data.points);
+        const points = data.history
+          .map((item: any) => item.amount)
+          .reduce((acc: number, curr: number) => acc + curr, 0);
+        setPoints(points);
         setHistory(data.history);
       })();
     }
@@ -49,6 +52,10 @@ export default function Home({ user, isAdmin }: Props) {
 
   const handleHistoryCardScroll = (e: any): void => {
     setHistoryScrollTop(e.target.scrollTop);
+  };
+
+  const handleAddPoints = (reason: string, amount: number): void => {
+    addPoints(user, reason, amount);
   };
 
   return (
@@ -71,6 +78,12 @@ export default function Home({ user, isAdmin }: Props) {
                   <ChevronRightIcon />
                 </span>
               </div>
+              <Button
+                color="success"
+                onClick={() => handleAddPoints('epic', 50)}
+              >
+                Epic
+              </Button>
               <div className="history">
                 {history.length > 0 ? (
                   history
