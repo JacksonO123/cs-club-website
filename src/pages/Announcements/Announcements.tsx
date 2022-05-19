@@ -31,11 +31,11 @@ export default function Annoucements({ user, isAdmin }: Props) {
   };
 
   useEffect(() => {
-    async function handleGetAnnouncements(): Promise<void> {
+    (async (): Promise<void> => {
       const tempAnnouncements = await getAnnouncements();
+      console.log(tempAnnouncements);
       setAnnouncements(tempAnnouncements);
-    }
-    handleGetAnnouncements();
+    })();
     onSnapshot(collection(db, 'announcements'), (snapshot: any) => {
       const docs = snapshot.docs.map((doc: any) => doc.data());
       console.log(docs);

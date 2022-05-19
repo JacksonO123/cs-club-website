@@ -1,3 +1,4 @@
+'use strict';
 import { initializeApp } from 'firebase/app';
 import {
 	getAuth,
@@ -14,7 +15,6 @@ import {
 	collection,
 	getFirestore,
 	deleteDoc,
-	addDoc,
 	limit,
 	query,
 	updateDoc
@@ -22,9 +22,9 @@ import {
 import type {
 	AnnouncementType,
 	AdminType,
-	PointsType,
 	UserType
 } from './interfaces';
+import { v4 } from 'uuid';
 
 const config = {
 	apiKey: "AIzaSyDV-jaVv4Nfs-VJGw5AxUve0QonRfeZDLg",
@@ -71,10 +71,14 @@ export const getIsAdmin = async (uid: string | undefined): Promise<boolean> => {
 export const getAnnouncements = async (): Promise<AnnouncementType[]> => {
 	let announcements: AnnouncementType[] = [];
 	const announcementsColRef = collection(db, 'announcements');
-	const announcementsQuery = await query(announcementsColRef, limit(80));
+	const announcementsQuery = query(announcementsColRef, limit(80));
 	const announcementsSnap = await getDocs(announcementsQuery);
 	announcementsSnap.forEach((announcement: any) => {
-		announcements.push(announcement.data());
+		const announcementData: any = {
+			...announcement.data(),
+			id: announcement.id
+		}
+		announcements.push(announcementData);
 	});
 	announcements.sort((a, b) => {
 		if (a.timestamp === null || typeof a.timestamp !== typeof 0) return 1;
@@ -122,7 +126,9 @@ export const getRequests = async (): Promise<AdminType[]> => {
 }
 
 export const addAnnouncement = async (announcement: AnnouncementType): Promise<void> => {
-	addDoc(collection(db, 'announcements'), announcement);
+	const id = v4();
+	announcement.id = id;
+	setDoc(doc(db, 'announcements', id), announcement);
 }
 
 export const getAdminObjs = async (): Promise<AdminType[]> => {
@@ -164,10 +170,8 @@ export const getUserData = async (user: any): Promise<any> => {
 }
 
 export const addPoints = async (user: any, reason: string, amount: number): Promise<void> => {
-	// change this to updateDoc
 	const uid = user.uid;
 	const data = await getUserData(user);
-	console.log(data);
 	const newUserObj: any = {
 		history: [
 			{
@@ -202,6 +206,14 @@ export const getPoints = async (user: any): Promise<number> => {
 		setDoc(doc(db, 'users', uid), newUser)
 		return 0;
 	}
+}
+
+export const updateAnnouncement = (id: string | undefined, value: string) => {
+	if (id) updateDoc(doc(db, 'announcements', id), { content: value });
+}
+
+export const deleteAnnouncement = (id: string | undefined) => {
+	if (id) deleteDoc(doc(db, 'announcements', id));
 }
 
 export { db };
