@@ -4,7 +4,6 @@ interface AnnouncementType {
   content: string;
   date: string;
   timestamp: number;
-  id?: string;
 }
 
 interface AdminType {

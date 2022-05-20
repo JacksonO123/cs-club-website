@@ -15,6 +15,18 @@ const theme = createTheme({
       main: '#757575;',
       contrastText: '#ffffff',
     },
+    error: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+    success: {
+      light: '#81c784',
+      main: '#4caf50',
+      dark: '#388e3c',
+      contrastText: '#000',
+    },
   },
 });
 

@@ -5,40 +5,30 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  .info {
+  .from {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    .controls {
+    gap: 8px;
+    align-items: center;
+    .from-info {
       display: flex;
-      flex-direction: row;
-      gap: 4px;
+      flex-direction: column;
     }
-    .from {
-      display: flex;
-      flex-direction: row;
-      gap: 8px;
-      align-items: center;
-      .from-info {
-        display: flex;
-        flex-direction: column;
-      }
-      img {
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-      .from-name {
-        font-size: 14px;
-        font-weight: 500;
-        color: #3e3e3e;
-      }
-      .timestamp {
-        font-size: 12px;
-        font-weight: 400;
-        color: #8f8f8f;
-      }
+    img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .from-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #3e3e3e;
+    }
+    .timestamp {
+      font-size: 12px;
+      font-weight: 400;
+      color: #8f8f8f;
     }
   }
   p {
