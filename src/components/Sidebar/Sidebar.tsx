@@ -11,6 +11,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 import PersonIcon from '@mui/icons-material/Person';
 import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { signIn, signOut } from '../../firebase';
 import { useLocation } from 'react-router-dom';
 
@@ -49,6 +50,11 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
       path: '/problems',
       name: 'Problems',
       icon: <PriorityHighRoundedIcon />,
+    },
+    {
+      path: '/challenges',
+      name: 'Challenges',
+      icon: <FitnessCenterIcon />,
     },
   ];
   if (isAdmin) {
