@@ -11,9 +11,10 @@ import { updateAnnouncement, deleteAnnouncement } from '../../firebase';
 
 interface Props {
   announcement: AnnouncementType;
+  isAdmin: boolean;
 }
 
-export default function AnnouncementEl({ announcement }: Props) {
+export default function AnnouncementEl({ announcement, isAdmin }: Props) {
   const [editing, setEditing] = useState<boolean>(false);
   const [newValue, setNewValue] = useState<string>(announcement.content);
   const handleButtonStyle = {
@@ -35,49 +36,55 @@ export default function AnnouncementEl({ announcement }: Props) {
     if (canDelete) deleteAnnouncement(announcement.id);
   };
   return (
-    <Card className="announcement">
-      <div className="info">
-        <div className="from row">
+    <Card className='announcement'>
+      <div className='info'>
+        <div className='from row'>
           <img
             src={announcement.fromPhotoUrl}
-            referrerPolicy="no-referrer"
-            alt=""
+            referrerPolicy='no-referrer'
+            alt=''
           />
-          <div className="from-info">
-            <span className="from-name">{announcement.from}</span>
-            <span className="timestamp">{announcement.date}</span>
+          <div className='from-info'>
+            <span className='from-name'>{announcement.from}</span>
+            <span className='timestamp'>{announcement.date}</span>
           </div>
         </div>
-        <div className="controls">
-          {editing ? (
-            <Button
-              color="success"
-              onClick={handleSubmitEdit}
-              sx={handleButtonStyle}
-            >
-              <DoneRoundedIcon />
-            </Button>
-          ) : (
-            <Button
-              color="secondary"
-              sx={handleButtonStyle}
-              onClick={handleStartEdit}
-            >
-              <EditRoundedIcon />
-            </Button>
-          )}
-          {!editing && (
-            <Button color="error" sx={handleButtonStyle} onClick={handleDelete}>
-              <DeleteOutlineRoundedIcon />
-            </Button>
-          )}
-        </div>
+        {isAdmin && (
+          <div className='controls'>
+            {editing ? (
+              <Button
+                color='success'
+                onClick={handleSubmitEdit}
+                sx={handleButtonStyle}
+              >
+                <DoneRoundedIcon />
+              </Button>
+            ) : (
+              <Button
+                color='secondary'
+                sx={handleButtonStyle}
+                onClick={handleStartEdit}
+              >
+                <EditRoundedIcon />
+              </Button>
+            )}
+            {!editing && (
+              <Button
+                color='error'
+                sx={handleButtonStyle}
+                onClick={handleDelete}
+              >
+                <DeleteOutlineRoundedIcon />
+              </Button>
+            )}
+          </div>
+        )}
       </div>
       <div>
         {editing ? (
           <TextField
-            label="Content"
-            variant="filled"
+            label='Content'
+            variant='filled'
             fullWidth
             multiline
             rows={3}

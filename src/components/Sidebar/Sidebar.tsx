@@ -5,12 +5,12 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import LeaderboardRoundedIcon from '@mui/icons-material/LeaderboardRounded';
-import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 import PersonIcon from '@mui/icons-material/Person';
 import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { signIn, signOut } from '../../firebase';
 import { useLocation } from 'react-router-dom';
 
@@ -22,7 +22,9 @@ interface Props {
 
 export default function Sidebar({ user, userLoading, isAdmin }: Props) {
   const location = useLocation();
-  const [pathname, setPathname] = useState<string>(location.pathname);
+  const p = location.pathname.match(/^(\/\w+)/)?.[1];
+  console.log(p);
+  const [pathname, setPathname] = useState<string | undefined>(p);
   const [expanded, setExpanded] = useState<boolean>(true);
   let paths = [
     {
@@ -41,9 +43,9 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
       icon: <LeaderboardRoundedIcon />,
     },
     {
-      path: '/programs',
-      name: 'Programs',
-      icon: <ViewModuleRoundedIcon />,
+      path: '/challenges',
+      name: 'Challenges',
+      icon: <ConstructionIcon />,
     },
     {
       path: '/problems',
@@ -117,21 +119,19 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
             {expanded ? <span>Sign in</span> : <></>}
           </button>
         ) : (
-          <>
-            <button
-              className={`sign-out-button ${!expanded ? 'expanded' : ''}`}
-              onClick={handleSignOut}
-            >
-              <LogoutRoundedIcon />
-              {expanded ? (
-                <>
-                  <span>Sign out</span>
-                </>
-              ) : (
-                <></>
-              )}
-            </button>
-          </>
+          <button
+            className={`sign-out-button ${!expanded ? 'expanded' : ''}`}
+            onClick={handleSignOut}
+          >
+            <LogoutRoundedIcon />
+            {expanded ? (
+              <>
+                <span>Sign out</span>
+              </>
+            ) : (
+              <></>
+            )}
+          </button>
         )}
         <button
           className={`expand-arrow ${!expanded ? 'expanded' : ''}`}

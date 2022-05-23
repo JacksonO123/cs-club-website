@@ -28,7 +28,6 @@ $cardPadding: 20px;
 }
 
 * {
-  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
 }
 
@@ -36,11 +35,14 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', sans-serif;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: #e3e3e3;
+  padding: 1px 4px;
+  border-radius: 4px;
 }
 
 #root {

@@ -3,7 +3,7 @@
 // mixins
 @mixin accountButton($color) {
 	background: $color;
-	padding: 8px 16px 8px 10px;
+	padding: 6px 14px 6px 8px;
 	cursor: pointer;
 	color: white;
 	border: none;
@@ -23,6 +23,7 @@
 	}
 	&:active {
 		background: darken($color, 10%);
+		box-shadow: 0 2px 3px rgba(0 0 0 / 50%);
 	}
 	span {
 		white-space: nowrap;
@@ -37,7 +38,12 @@
 	background: white;
 	color: $color;
 	&:hover {
+		background: rgba($color, 0.125);
+	}
+	&:active {
 		background: rgba($color, 0.25);
+		border-color: rgba($color, 0.25);
+		box-shadow: 0 2px 3px rgba(0 0 0 / 50%);
 	}
 }
 

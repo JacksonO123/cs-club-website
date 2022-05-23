@@ -44,7 +44,7 @@ export default function Annoucements({ user, isAdmin }: Props) {
   }, []);
 
   return (
-    <div className="announcements">
+    <div className='announcements'>
       {addingAnnouncement ? (
         <NewAnnouncement
           user={user}
@@ -57,11 +57,12 @@ export default function Annoucements({ user, isAdmin }: Props) {
       {announcements.length > 0 ? (
         <>
           <h1>Announcements</h1>
-          <div className="announcement-list">
+          <div className='announcement-list'>
             {announcements.map((announcement: any, index: number): any => (
               <Announcement
                 key={`${index}-announcement-id`}
                 announcement={announcement}
+                isAdmin={isAdmin}
               />
             ))}
           </div>
@@ -70,7 +71,7 @@ export default function Annoucements({ user, isAdmin }: Props) {
         <h1>No announcements yet</h1>
       )}
       {isAdmin ? (
-        <Fab sx={fabStyles} color="primary" onClick={handleAddingAnnouncement}>
+        <Fab sx={fabStyles} color='primary' onClick={handleAddingAnnouncement}>
           <AddIcon />
         </Fab>
       ) : (
