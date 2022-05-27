@@ -22,8 +22,7 @@ interface Props {
 
 export default function Sidebar({ user, userLoading, isAdmin }: Props) {
   const location = useLocation();
-  const p = location.pathname.match(/^(\/\w+)/)?.[1];
-  console.log(p);
+  let p = location.pathname.match(/^(\/\w+)/)?.[1] || '/';
   const [pathname, setPathname] = useState<string | undefined>(p);
   const [expanded, setExpanded] = useState<boolean>(true);
   let paths = [
