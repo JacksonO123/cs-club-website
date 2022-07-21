@@ -1,17 +1,20 @@
-import './AdminPanel.scss';
-import '../../utils.scss';
-import Card from '../../components/Card/Card';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
 import { getRequests, approveAdminRequest, getAdminObjs } from '../../firebase';
+import { AdminContext } from '../../Contexts';
+
 import type { AdminType } from '../../interfaces';
+
 import ProfileBox from '../../components/ProfileBox/ProfileBox';
+import Card from '../../components/Card/Card';
 
-interface Props {
-  isAdmin: boolean;
-}
+import './AdminPanel.scss';
+import '../../utils.scss';
 
-export default function AdminPanel({ isAdmin }: Props) {
+export default function AdminPanel() {
+
+  const isAdmin = useContext(AdminContext);
+
   const [requests, setRequests] = useState<any[]>([]);
   const [admins, setAdmins] = useState<AdminType[]>([]);
 
@@ -67,7 +70,6 @@ export default function AdminPanel({ isAdmin }: Props) {
                   {requests.map((request: any, index: number) => {
                     return (
                       <ProfileBox
-                        user={request}
                         key={`${index}-admin-request-item`}
                       >
                         <Button
@@ -101,7 +103,6 @@ export default function AdminPanel({ isAdmin }: Props) {
                       return (
                         <ProfileBox
                           key={`${index}-profile-box-item`}
-                          user={admin}
                         />
                       );
                     })

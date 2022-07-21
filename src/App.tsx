@@ -1,10 +1,13 @@
-import './App.scss';
-import Header from './components/Header/Header';
-import Sidebar from './components/Sidebar/Sidebar';
-import Router from './pages/Router/Router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuthObj, getIsAdmin } from './firebase';
 import { useState, useEffect } from 'react';
+import { UserContext, UserLoadingContext, AdminContext } from './Contexts';
+
+import Header from './components/Header/Header';
+import Sidebar from './components/Sidebar/Sidebar';
+import Router from './pages/Router/Router';
+
+import './App.scss';
 
 function App() {
   const auth = getAuthObj();
@@ -19,13 +22,19 @@ function App() {
   }, [user?.uid]);
 
   return (
-    <div className="app col">
-      <Header></Header>
-      <div className="content row">
-        <Sidebar user={user} userLoading={loading} isAdmin={isAdmin}></Sidebar>
-        <Router user={user} isAdmin={isAdmin}></Router>
-      </div>
-    </div>
+    <UserContext.Provider value={user}>
+      <UserLoadingContext.Provider value={loading}>
+        <AdminContext.Provider value={isAdmin}>
+          <div className="app col">
+            <Header></Header>
+            <div className="content row">
+              <Sidebar />
+              <Router />
+            </div>
+          </div>
+        </AdminContext.Provider>
+      </UserLoadingContext.Provider>
+    </UserContext.Provider>
   );
 }
 

@@ -1,20 +1,22 @@
-import './Home.scss';
-import '../../utils.scss';
-import Card from '../../components/Card/Card';
 import { Button } from '@mui/material';
 import { addPoints, requestAdminPermissions } from '../../firebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getUserData } from '../../firebase';
 import { PointHistory } from '../../interfaces';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Backdrop } from '@mui/material';
+import { AdminContext, UserContext } from '../../Contexts';
 
-interface Props {
-  user: any;
-  isAdmin: boolean;
-}
+import Card from '../../components/Card/Card';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-export default function Home({ user, isAdmin }: Props) {
+import './Home.scss';
+import '../../utils.scss';
+
+export default function Home() {
+
+  const user: any = useContext(UserContext);
+  const isAdmin: boolean = useContext(AdminContext);
+
   const [points, setPoints] = useState<number | null>(null);
   const [history, setHistory] = useState<PointHistory[]>([]);
   const [showingFullHistory, setShowingFullHistory] = useState<boolean>(false);
@@ -95,9 +97,8 @@ export default function Home({ user, isAdmin }: Props) {
                           <div className="sub">{value.date}</div>
                         </span>
                         <span
-                          className={`amount ${
-                            value.amount >= 0 ? 'positive' : 'negative'
-                          }`}
+                          className={`amount ${value.amount >= 0 ? 'positive' : 'negative'
+                            }`}
                         >
                           {value.amount >= 0
                             ? `+${value.amount}`
@@ -136,9 +137,8 @@ export default function Home({ user, isAdmin }: Props) {
                             <div className="sub">{value.date}</div>
                           </span>
                           <span
-                            className={`amount ${
-                              value.amount >= 0 ? 'positive' : 'negative'
-                            }`}
+                            className={`amount ${value.amount >= 0 ? 'positive' : 'negative'
+                              }`}
                           >
                             {value.amount >= 0
                               ? `+${value.amount}`

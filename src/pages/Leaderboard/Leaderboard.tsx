@@ -14,10 +14,8 @@ export default function Leaderboard() {
 
   useEffect(() => {
     (async (): Promise<void> => {
-      try {
-        const leaderboardData = await getLeaderboard();
-        setLeaderboard(leaderboardData);
-      } catch (e: any) {}
+      const leaderboardData = await getLeaderboard();
+      setLeaderboard(leaderboardData);
     })();
   }, []);
 
@@ -36,9 +34,8 @@ export default function Leaderboard() {
       <h1>Leaderboard </h1>
       <Card className="leaderboard" onScroll={handleScroll}>
         <div
-          className={`leaderboard-header ${
-            leaderbaordScroll > 0 ? 'shadow' : ''
-          }`}
+          className={`leaderboard-header ${leaderbaordScroll > 0 ? 'shadow' : ''
+            }`}
         >
           <div className="sub">Name</div>
           <div className="sub">Points</div>

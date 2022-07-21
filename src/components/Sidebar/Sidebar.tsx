@@ -1,6 +1,9 @@
-import './Sidebar.scss';
+import { signIn, signOut } from '../../firebase';
+import { useLocation } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { AdminContext, UserContext, UserLoadingContext } from '../../Contexts';
+
 import CustomLink from '../CustomLink/CustomLink';
-import { useState } from 'react';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
@@ -11,16 +14,15 @@ import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSetting
 import PersonIcon from '@mui/icons-material/Person';
 import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
 import ConstructionIcon from '@mui/icons-material/Construction';
-import { signIn, signOut } from '../../firebase';
-import { useLocation } from 'react-router-dom';
 
-interface Props {
-  user?: any;
-  userLoading?: boolean;
-  isAdmin: boolean;
-}
+import './Sidebar.scss';
 
-export default function Sidebar({ user, userLoading, isAdmin }: Props) {
+export default function Sidebar() {
+
+  const user: any = useContext(UserContext);
+  const isAdmin: boolean = useContext(AdminContext)
+  const loading: boolean = useContext(UserLoadingContext);
+
   const location = useLocation();
   let p = location.pathname.match(/^(\/\w+)/)?.[1] || '/';
   const [pathname, setPathname] = useState<string | undefined>(p);
@@ -42,16 +44,18 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
       icon: <LeaderboardRoundedIcon />,
     },
     {
-      path: '/challenges',
-      name: 'Challenges',
-      icon: <ConstructionIcon />,
-    },
-    {
       path: '/problems',
       name: 'Problems',
       icon: <PriorityHighRoundedIcon />,
     },
   ];
+  if (user != null) {
+    paths.push({
+      path: '/challenges',
+      name: 'Challenges',
+      icon: <ConstructionIcon />,
+    });
+  }
   if (isAdmin) {
     paths.push(
       ...[
@@ -109,7 +113,7 @@ export default function Sidebar({ user, userLoading, isAdmin }: Props) {
         })}
       </div>
       <div className={`expand-arrow-wrapper ${expanded ? 'row' : 'col'}`}>
-        {user === null && !userLoading ? (
+        {user === null && !loading ? (
           <button
             className={`sign-in-button ${!expanded ? 'expanded' : ''}`}
             onClick={handleSignIn}

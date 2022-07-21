@@ -1,4 +1,6 @@
-interface AnnouncementType {
+import React from "react";
+
+export interface AnnouncementType {
   from: string;
   fromPhotoUrl: string;
   content: string;
@@ -7,26 +9,26 @@ interface AnnouncementType {
   id?: string;
 }
 
-interface AdminType {
+export interface AdminType {
   name: string;
   photoUrl: string;
   email: string;
   uid: string;
 }
 
-interface PointsType {
+export interface PointsType {
   name: string;
   points: number;
 }
 
-interface PointHistory {
+export interface PointHistory {
   date: string;
   timestamp: number;
   reason: string;
   amount: number;
 }
 
-interface UserType {
+export interface UserType {
   uid: string;
   name: string;
   photoUrl: string;
@@ -34,10 +36,8 @@ interface UserType {
   email: string;
 }
 
-export type {
-  AnnouncementType,
-  AdminType,
-  PointsType,
-  PointHistory,
-  UserType
+export interface RouteType {
+  path: string;
+  element: React.ReactNode;
+  rule?: boolean;
 }

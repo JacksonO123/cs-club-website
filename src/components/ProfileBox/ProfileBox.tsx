@@ -1,13 +1,18 @@
+import { useContext } from 'react';
+import { UserContext } from '../../Contexts';
+
 import React from 'react';
+
 import './ProfileBox.scss';
 
 interface Props {
-  user: any;
-  children?: React.ReactNode[] | React.ReactNode; // for the content on the
-  // right of the data
+  children?: React.ReactNode[] | React.ReactNode;
 }
 
-export default function ProfileBox({ user, children }: Props) {
+export default function ProfileBox({ children }: Props) {
+
+  const user: any = useContext(UserContext);
+
   return (
     <div className="profile-box">
       <div className="info">
