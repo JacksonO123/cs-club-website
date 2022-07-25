@@ -1,4 +1,3 @@
-'use strict';
 import { initializeApp } from 'firebase/app';
 import {
 	getAuth,
