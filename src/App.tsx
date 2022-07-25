@@ -2,17 +2,33 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuthObj, getIsAdmin } from './firebase';
 import { useState, useEffect } from 'react';
 import { UserContext, UserLoadingContext, AdminContext } from './Contexts';
+import { styled } from '@mui/material/styles';
+import { utils } from 'src/style-utils';
 
-import Header from './components/Header/Header';
-import Sidebar from './components/Sidebar/Sidebar';
-import Router from './pages/Router/Router';
+import Header from './components/header';
+import Sidebar from './components/sidebar';
+import Router from './pages/router';
 
-import './App.scss';
+const AppWrapper = styled('div')({
+  maxHeight: '100vh',
+  height: '100vh',
+  width: '100vw',
+  display: 'flex',
+  flexDirection: 'column'
+});
+
+const Content = styled('div')({
+  height: '100%',
+  width: '100vw',
+  maxHeight: `calc(100vh - ${utils.headerHeight})`,
+  display: 'flex',
+});
 
 function App() {
   const auth = getAuthObj();
   const [user, loading, error] = useAuthState(auth);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  // admin; null = loading, false = not admin
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   useEffect((): void => {
     (async (): Promise<void> => {
@@ -25,13 +41,13 @@ function App() {
     <UserContext.Provider value={user}>
       <UserLoadingContext.Provider value={loading}>
         <AdminContext.Provider value={isAdmin}>
-          <div className="app col">
+          <AppWrapper>
             <Header></Header>
-            <div className="content row">
+            <Content>
               <Sidebar />
               <Router />
-            </div>
-          </div>
+            </Content>
+          </AppWrapper>
         </AdminContext.Provider>
       </UserLoadingContext.Provider>
     </UserContext.Provider>

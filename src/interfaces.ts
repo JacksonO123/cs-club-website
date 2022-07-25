@@ -41,3 +41,9 @@ export interface RouteType {
   element: React.ReactNode;
   rule?: boolean;
 }
+
+export interface PathType {
+  path: string;
+  name: string;
+  icon: React.ReactNode;
+}

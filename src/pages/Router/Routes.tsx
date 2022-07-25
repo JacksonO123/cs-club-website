@@ -1,14 +1,14 @@
-import { RouteType } from '../../interfaces';
-import Home from '../Home/Home';
-import Announcements from '../Announcements/Announcements';
-import Leaderboard from '../Leaderboard/Leaderboard';
-import About from '../About/About';
-import AdminPanel from '../AdminPanel/AdminPanel';
-import Problems from '../Problems/Problems';
-import Attendance from '../Attendance/Attendance';
-import Challenges from '../Challenges/Challenges';
-import Challenge from '../Challenge/Challenge';
-import The404Page from '../The404Page/The404Page';
+import { RouteType } from 'src/interfaces';
+import Home from '../home';
+import Announcements from '../announcements';
+import Leaderboard from '../leaderboard';
+import About from '../about';
+import AdminPanel from '../admin-panel';
+import Problems from '../problems';
+import Attendance from '../attendance';
+import Challenges from '../challenges/Challenges';
+import Challenge from '../challenge';
+import The404Page from '../404-page/The404Page';
 
 const routes: RouteType[] = [
 	{

@@ -1,9 +1,37 @@
-import "./NewAnnouncement.scss";
-import { useState } from "react";
-import type { AnnouncementType } from "../../interfaces";
-import { addAnnouncement } from "../../firebase";
-import Card from "../../components/Card/Card";
+import { useState, useContext } from "react";
+import { addAnnouncement } from "src/firebase";
 import { Button, TextField } from "@mui/material";
+import { UserContext } from "src/Contexts";
+import { styled } from '@mui/material/styles';
+
+import type { AnnouncementType } from "src/interfaces";
+
+import Card from "src/components/card";
+import PageTitle from "src/components/page-title";
+
+const NewAnnouncementWrapper = styled('div')({
+  minWidth: '250px',
+  width: '100%',
+  maxWidth: '725px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+});
+
+const InputWrapper = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: '8px',
+  width: '100%',
+});
+
+const Controls = styled('div')({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: '6px'
+});
 
 interface Props {
   user: any;
@@ -12,7 +40,7 @@ interface Props {
 }
 
 function formatTime(time: Date): string {
-  let minutes = `${time.getMinutes()}`;
+  let minutes = time.getMinutes() + '';
   if (minutes.length < 2) {
     minutes = `0${minutes}`;
   }
@@ -23,8 +51,9 @@ function formatTime(time: Date): string {
   return `${timeString} ${new Date().toLocaleDateString()}`;
 }
 
-export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
-  const [content, setContent] = useState<string>("");
+export default function NewAnnouncement({ onSubmit, onCancel }: Props) {
+  const user: any = useContext(UserContext);
+  const [content, setContent] = useState<string>('');
 
   const btnStyles = {
     width: 125,
@@ -48,31 +77,33 @@ export default function NewAnnouncement({ user, onSubmit, onCancel }: Props) {
   };
 
   return (
-    <Card className="new-announcement-wrapper">
-      <h2>Create a New Annoucement</h2>
-      <div className="input-wrapper">
-        <TextField
-          label="Content"
-          variant="filled"
-          fullWidth
-          multiline
-          rows={3}
-          onChange={(e: any): void => setContent(e.target.value)}
-          value={content}
-        />
-        <div className="controls">
-          <Button sx={btnStyles} onClick={handleCancel} color="secondary">
-            Cancel
-          </Button>
-          <Button
-            sx={btnStyles}
-            onClick={createAnnouncement}
-            variant="outlined"
-          >
-            Post
-          </Button>
-        </div>
-      </div>
-    </Card>
+    <NewAnnouncementWrapper>
+      <Card stretch>
+        <PageTitle size="small">Create a New Annoucement</PageTitle>
+        <InputWrapper>
+          <TextField
+            label="Content"
+            variant="filled"
+            fullWidth
+            multiline
+            rows={3}
+            onChange={(e: any): void => setContent(e.target.value)}
+            value={content}
+          />
+          <Controls>
+            <Button sx={btnStyles} onClick={handleCancel} color="secondary">
+              Cancel
+            </Button>
+            <Button
+              sx={btnStyles}
+              onClick={createAnnouncement}
+              variant="outlined"
+            >
+              Post
+            </Button>
+          </Controls>
+        </InputWrapper>
+      </Card>
+    </NewAnnouncementWrapper>
   );
 }
