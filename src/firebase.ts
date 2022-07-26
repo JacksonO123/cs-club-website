@@ -216,3 +216,7 @@ export const deleteAnnouncement = (id: string | undefined) => {
 }
 
 export { db };
+
+export const rejectAdminRequest = (uid: string): void => {
+	deleteDoc(doc(db, 'admins', 'requests', 'requests', uid));
+};

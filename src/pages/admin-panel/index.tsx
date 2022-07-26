@@ -1,6 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { Button } from '@mui/material';
-import { getRequests, approveAdminRequest, getAdminObjs } from 'src/firebase';
+import {
+  getRequests,
+  approveAdminRequest,
+  getAdminObjs,
+  rejectAdminRequest
+} from 'src/firebase';
 import { AdminContext } from 'src/Contexts';
 import { v4 } from 'uuid';
 import { styled } from '@mui/material/styles';
@@ -47,15 +52,24 @@ const AdminPanel = () => {
     gap: '10px',
   };
 
-  const handleApproveRequest = (request: AdminType, index: number): void => {
-    const requestUser: AdminType = { ...request };
-    approveAdminRequest(requestUser);
+  const removeRequestIndex = (index: number): void => {
     setRequests((prev) =>
       prev.filter((_: any, i: number): boolean => i !== index)
     );
   };
 
+  const handleApproveRequest = (request: AdminType, index: number): void => {
+    const requestUser: AdminType = { ...request };
+    approveAdminRequest(requestUser);
+    removeRequestIndex(index);
+  };
+
   const handleRejectRequest = (request: AdminType, index: number): void => {
+    const canRemove = window.confirm('Are you sure you want to reject this request?');
+    if (canRemove) {
+      rejectAdminRequest(request.uid);
+      removeRequestIndex(index);
+    }
   };
 
   useEffect(() => {
