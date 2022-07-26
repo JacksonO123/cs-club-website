@@ -74,6 +74,6 @@ const ProfileBox = ({ user, children }: Props) => {
       {children}
     </ProfileBoxWrapper>
   );
-}
+};
 
 export default ProfileBox;

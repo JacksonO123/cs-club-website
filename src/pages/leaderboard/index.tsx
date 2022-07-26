@@ -72,7 +72,7 @@ const DataWrapper = styled('span')({
   gap: utils.itemGap
 });
 
-export default function Leaderboard() {
+const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState<UserType[]>([]);
   const [leaderbaordScroll, setLeaderboardScroll] = useState<number>(0);
   const goldColor = '#f5ce00';
@@ -153,4 +153,6 @@ export default function Leaderboard() {
       </Card>
     </LeaderboardWrapper>
   );
-}
+};
+
+export default Leaderboard;

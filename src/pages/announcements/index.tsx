@@ -31,7 +31,7 @@ const AnnouncementList = styled('div')({
   width: '100%'
 });
 
-export default function Annoucements() {
+const Announcements = () => {
 
   const user: any = useContext(UserContext);
   const isAdmin: boolean | null = useContext(AdminContext);
@@ -107,4 +107,6 @@ export default function Annoucements() {
       )}
     </AnnouncementsWrapper>
   );
-}
+};
+
+export default Announcements;

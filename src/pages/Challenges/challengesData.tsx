@@ -12,10 +12,12 @@ const challenges: any = {
     ),
     languages: ['javascript', 'java'],
     startCode: {
-      javascript: `function multiply(a, b) {
+      javascript:
+        `function multiply(a, b) {
   // your code
 }`,
-      java: `public class Multiply {
+      java:
+        `public class Multiply {
   public static int multiply(int a, int b) {
     // your code
   }
@@ -32,10 +34,12 @@ const challenges: any = {
       </span>
     ),
     startCode: {
-      javascript: `function divide(a, b) {
+      javascript:
+        `function divide(a, b) {
   // your code
 }`,
-      java: `public class Divide {
+      java:
+        `public class Divide {
   public static double divide(int a, int b) {
     // your code
   }

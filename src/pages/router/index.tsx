@@ -11,7 +11,7 @@ const RouterWrapper = styled('div')({
   background: 'rgba(0, 0, 0, 0.03)'
 });
 
-export default function Router() {
+const Router = () => {
   return (
     <RouterWrapper>
       <Routes>
@@ -25,4 +25,6 @@ export default function Router() {
       </Routes>
     </RouterWrapper>
   );
-}
+};
+
+export default Router;

@@ -10,14 +10,14 @@ interface Props {
   onScroll?: Function;
 }
 
-export default function Card({
+const Card = ({
   children,
   sx,
   stretch = false,
   className,
   onClick,
   onScroll,
-}: Props) {
+}: Props) => {
   const handleClick = (e: any) => {
     if (onClick) {
       onClick(e);
@@ -58,4 +58,6 @@ export default function Card({
       {children}
     </MuiCard>
   );
-}
+};
+
+export default Card;

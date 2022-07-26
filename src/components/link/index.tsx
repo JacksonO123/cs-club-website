@@ -7,7 +7,6 @@ interface Props {
 }
 
 const Link = ({ to, color = 'black', children }: Props) => {
-
 	const linkSX = {
 		textDecoration: 'none'
 	};
@@ -15,6 +14,6 @@ const Link = ({ to, color = 'black', children }: Props) => {
 	return (
 		<RouterLink to={to} style={{ color, ...linkSX }}>{children}</RouterLink>
 	);
-}
+};
 
 export default Link;

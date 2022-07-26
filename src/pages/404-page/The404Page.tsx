@@ -1,9 +1,18 @@
-import './The404Page.scss';
+import { styled } from '@mui/material/styles';
+import { utils } from 'src/style-utils';
 
-export default function The404Page() {
+import PageTitle from 'src/components/page-title';
+
+const PageWrapper = styled('div')({
+  padding: utils.contentPadding
+});
+
+const The404Page = () => {
   return (
-    <div className="page-404">
-      <h1>404 page not found</h1>
-    </div>
+    <PageWrapper>
+      <PageTitle>404 page not found</PageTitle>
+    </PageWrapper>
   );
-}
+};
+
+export default The404Page;

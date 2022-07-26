@@ -33,7 +33,7 @@ const InfoWrapper = styled('div')({
   gap: '14px',
 });
 
-export default function Challenge() {
+const Challenge = () => {
   const location = useLocation();
 
   const challengeId: string | undefined = location.pathname.match(/challenges\/(\w+)/)?.[1];
@@ -111,4 +111,6 @@ export default function Challenge() {
       />
     </ChallengeWrapper>
   );
-}
+};
+
+export default Challenge;

@@ -8,6 +8,7 @@ import type { AnnouncementType } from "src/interfaces";
 
 import Card from "src/components/card";
 import PageTitle from "src/components/page-title";
+import Annoucements from ".";
 
 const NewAnnouncementWrapper = styled('div')({
   minWidth: '250px',
@@ -39,24 +40,24 @@ interface Props {
   onCancel: Function;
 }
 
-function formatTime(time: Date): string {
-  let minutes = time.getMinutes() + '';
-  if (minutes.length < 2) {
-    minutes = `0${minutes}`;
-  }
-  let timeString = `${time.getHours()}:${minutes} AM`;
-  if (time.getHours() > 12) {
-    timeString = `${time.getHours() - 12}:${minutes} PM`;
-  }
-  return `${timeString} ${new Date().toLocaleDateString()}`;
-}
-
-export default function NewAnnouncement({ onSubmit, onCancel }: Props) {
+const NewAnnouncement = ({ onSubmit, onCancel }: Props) => {
   const user: any = useContext(UserContext);
   const [content, setContent] = useState<string>('');
 
   const btnStyles = {
     width: 125,
+  };
+
+  const formatTime = (time: Date): string => {
+    let minutes = time.getMinutes() + '';
+    if (minutes.length < 2) {
+      minutes = `0${minutes}`;
+    }
+    let timeString = `${time.getHours()}:${minutes} AM`;
+    if (time.getHours() > 12) {
+      timeString = `${time.getHours() - 12}:${minutes} PM`;
+    }
+    return `${timeString} ${new Date().toLocaleDateString()}`;
   };
 
   const createAnnouncement = async (): Promise<void> => {
@@ -106,4 +107,6 @@ export default function NewAnnouncement({ onSubmit, onCancel }: Props) {
       </Card>
     </NewAnnouncementWrapper>
   );
-}
+};
+
+export default NewAnnouncement;

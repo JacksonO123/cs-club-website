@@ -11,7 +11,7 @@ const P = styled('p')({
 	fontSize: '17px'
 });
 
-export default function About() {
+const About = () => {
 	return (
 		<AboutWrapper>
 			<PageTitle>About</PageTitle>
@@ -26,4 +26,6 @@ export default function About() {
 			</P>
 		</AboutWrapper>
 	);
-}
+};
+
+export default About;

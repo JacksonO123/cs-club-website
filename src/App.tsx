@@ -24,7 +24,7 @@ const Content = styled('div')({
   display: 'flex',
 });
 
-function App() {
+const App = () => {
   const auth = getAuthObj();
   const [user, loading, error] = useAuthState(auth);
   // admin; null = loading, false = not admin
@@ -52,6 +52,6 @@ function App() {
       </UserLoadingContext.Provider>
     </UserContext.Provider>
   );
-}
+};
 
 export default App;

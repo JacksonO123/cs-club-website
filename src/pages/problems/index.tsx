@@ -7,10 +7,12 @@ const ProblemWrapper = styled('div')({
     padding: utils.contentPadding
 });
 
-export default function Problems() {
+const Problems = () => {
     return (
         <ProblemWrapper>
             <PageTitle>Problems</PageTitle>
         </ProblemWrapper>
     );
-}
+};
+
+export default Problems;

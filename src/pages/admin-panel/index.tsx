@@ -148,6 +148,6 @@ const AdminPanel = () => {
           )}
     </AdminWrapper>
   );
-}
+};
 
 export default AdminPanel;

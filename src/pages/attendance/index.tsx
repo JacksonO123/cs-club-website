@@ -27,7 +27,7 @@ const AttendanceCards = styled('div')({
   gap: '24px',
 });
 
-export default function Attendance() {
+const Attendance = () => {
 
   const isAdmin: boolean | null = useContext(AdminContext);
 
@@ -108,4 +108,6 @@ export default function Attendance() {
       }
     </AttendanceWrapper>
   );
-}
+};
+
+export default Attendance;

@@ -4,7 +4,7 @@ import { Avatar } from '@mui/material';
 
 import mvhsLogo from 'src/assets/mvhs-logo.svg';
 
-const logoSize: string = '24px';
+const logoSize: number = 24;
 
 const HeaderWrapper = styled('header')({
 	display: 'flex',
@@ -14,18 +14,18 @@ const HeaderWrapper = styled('header')({
 	boxShadow: '0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)',
 	zIndex: 5,
 	height: utils.headerHeight,
-	gap: '16px',
+	gap: 16,
 	alignItems: 'center'
 });
 
 const HeaderTitle = styled('p')({
 	margin: 0,
 	padding: 0,
-	fontSize: '22px',
+	fontSize: 22,
 	fontWeight: 400
 });
 
-export default function Header() {
+const Header = () => {
 	return (
 		<HeaderWrapper>
 			<Avatar
@@ -41,3 +41,5 @@ export default function Header() {
 		</HeaderWrapper>
 	);
 }
+
+export default Header;

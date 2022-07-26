@@ -115,7 +115,7 @@ const HistoryTitle = styled('span')({
   padding: '20px 20px 12px 20px'
 });
 
-export default function Home() {
+const Home = () => {
 
   const user: any = useContext(UserContext);
   const isAdmin: boolean | null = useContext(AdminContext);
@@ -299,4 +299,6 @@ export default function Home() {
       </HomeCards>
     </HomeWrapper>
   );
-}
+};
+
+export default Home;

@@ -24,5 +24,11 @@ export const classes = {
 	sub: {
 		color: '#868e96',
 		'font-size': 'smaller'
+	},
+	center: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignContent: 'center'
 	}
 };

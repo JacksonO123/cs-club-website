@@ -26,7 +26,7 @@ const ChallengeTitle = styled('div')({
   justifyContent: 'space-between',
 });
 
-export default function Challenges() {
+const Challenges = () => {
   const challengeValues = Object.keys(challenges).map((key) => {
     let obj: any = challenges[key];
     obj.id = key;
@@ -70,4 +70,6 @@ export default function Challenges() {
       </div>
     </ChallengesWrapper>
   );
-}
+};
+
+export default Challenges;

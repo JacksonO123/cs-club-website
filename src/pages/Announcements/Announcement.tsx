@@ -74,7 +74,7 @@ interface Props {
   announcement: AnnouncementType;
 }
 
-export default function AnnouncementEl({ announcement }: Props) {
+const Announcement = ({ announcement }: Props) => {
   const isAdmin: boolean | null = useContext(AdminContext);
   const [editing, setEditing] = useState<boolean>(false);
   const [newValue, setNewValue] = useState<string>(announcement.content);
@@ -183,4 +183,6 @@ export default function AnnouncementEl({ announcement }: Props) {
       </Card>
     </AnnouncementWrapper>
   );
-}
+};
+
+export default Announcement;
