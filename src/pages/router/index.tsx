@@ -3,7 +3,7 @@ import { RouteType } from 'src/interfaces';
 import { v4 } from 'uuid';
 import { styled } from '@mui/material/styles';
 
-import routes from './Routes';
+import routes from './PageRoutes';
 
 const RouterWrapper = styled('div')({
   height: '100%',
