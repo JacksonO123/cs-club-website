@@ -1,6 +1,6 @@
 import { RouteType } from 'src/interfaces';
 import Home from '../home';
-import Announcements from '../Announcements2';
+import Announcements from '../announcements';
 import Leaderboard from '../leaderboard';
 import About from '../about';
 import AdminPanel from '../admin-panel';
