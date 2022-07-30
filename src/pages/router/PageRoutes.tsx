@@ -2,7 +2,7 @@ import { RouteType } from 'src/interfaces';
 import Home from '../home';
 import Announcements from '../announcements';
 import Leaderboard from '../leaderboard';
-import About from '../About';
+import About from '../about';
 import AdminPanel from '../admin-panel';
 import Problems from '../problems';
 import Attendance from '../attendance';
