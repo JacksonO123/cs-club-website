@@ -8,7 +8,8 @@ import routes from './Routes';
 const RouterWrapper = styled('div')({
   height: '100%',
   width: '100%',
-  background: 'rgba(0, 0, 0, 0.03)'
+  background: 'rgba(0, 0, 0, 0.03)',
+  overflow: 'scroll'
 });
 
 const Router = () => {

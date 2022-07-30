@@ -8,7 +8,6 @@ import type { AnnouncementType } from "src/interfaces";
 
 import Card from "src/components/card";
 import PageTitle from "src/components/page-title";
-import Annoucements from ".";
 
 const NewAnnouncementWrapper = styled('div')({
   minWidth: '250px',

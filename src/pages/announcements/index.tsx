@@ -1,26 +1,29 @@
 import { getAnnouncements, db } from 'src/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import React, { useState, useEffect, useContext } from 'react';
-import { Fab } from '@mui/material';
+import { CircularProgress, Fab, Box } from '@mui/material';
 import { AdminContext, UserContext } from 'src/Contexts';
 import { v4 } from 'uuid';
 import { styled } from '@mui/material/styles';
-import { utils } from 'src/style-utils';
+import { utils, classes } from 'src/style-utils';
+
+import type { AnnouncementType } from 'src/interfaces';
 
 import NewAnnouncement from './NewAnnouncement';
 import AddIcon from '@mui/icons-material/Add';
 import Announcement from './Announcement';
 import PageTitle from 'src/components/page-title';
-import { AnnouncementType } from 'src/interfaces';
+import FullCenter from 'src/components/full-center';
+import ExpandDown from 'src/components/keyframes/expand-down';
+import FadeIn from 'src/components/keyframes/fade-in';
+import FadeOut from 'src/components/keyframes/fade-out';
+import ExpandUp from 'src/components/keyframes/expand-up';
 
 const AnnouncementsWrapper = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
   alignItems: 'center',
   overflowY: 'scroll',
-  padding: utils.contentPadding,
-  gap: utils.cardPadding,
 });
 
 const AnnouncementList = styled('div')({
@@ -39,6 +42,7 @@ const Announcements = () => {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [announcementResponse, setAnnouncementResponse] = useState<boolean>(false);
   const [addingAnnouncement, setAddingAnnouncement] = useState<boolean>(false);
+  const [contractNewAnnouncement, setContractNewAnnouncement] = useState<boolean>(false);
 
   const fabStyles = {
     position: 'absolute',
@@ -46,12 +50,20 @@ const Announcements = () => {
     right: 30,
   };
 
+  const paddingSx = {
+    padding: utils.contentPadding,
+  };
+
+  const fullWidthSx = {
+    width: '100%'
+  };
+
   const handleAddingAnnouncement = (): void => {
     setAddingAnnouncement(true);
   };
 
   const handleCancelAddingAnnouncement = (): void => {
-    setAddingAnnouncement(false);
+    setContractNewAnnouncement(true);
   };
 
   useEffect(() => {
@@ -66,44 +78,87 @@ const Announcements = () => {
     });
   }, []);
 
-  return (
-    <AnnouncementsWrapper>
-      {addingAnnouncement && (
+  const handleNewAnnouncementCallback = (): void => {
+    setAddingAnnouncement(false);
+    setContractNewAnnouncement(false);
+  };
+
+  const NewAnnoucementEl = (): React.ReactElement => {
+    return (
+      <Box
+        sx={{
+          ...paddingSx,
+          width: '100%',
+          overflow: 'hidden',
+          ...classes.center
+        }}
+      >
         <NewAnnouncement
           user={user}
           onSubmit={handleCancelAddingAnnouncement}
           onCancel={handleCancelAddingAnnouncement}
         />
+      </Box>
+    );
+  };
+
+  return (
+    <AnnouncementsWrapper>
+      {addingAnnouncement && (
+        <FadeIn sx={fullWidthSx}>
+          {contractNewAnnouncement
+            ? (
+              <FadeOut length={0.4}>
+                <ExpandUp
+                  callback={handleNewAnnouncementCallback}
+                >
+                  <NewAnnoucementEl />
+                </ExpandUp>
+              </FadeOut>
+            )
+            : (
+              <ExpandDown>
+                <NewAnnoucementEl />
+              </ExpandDown>
+            )}
+        </FadeIn>
       )}
       {announcementResponse
         ? (
           announcements.length > 0
             ? (
               <>
-                <PageTitle>Announcements</PageTitle>
-                <AnnouncementList>
-                  {announcements
-                    .sort((a: AnnouncementType, b: AnnouncementType) => b.timestamp - a.timestamp)
-                    .map((announcement: AnnouncementType): React.ReactNode => (
-                      <Announcement
-                        key={v4()}
-                        announcement={announcement}
-                      />
-                    ))}
-                </AnnouncementList>
+                <PageTitle sx={{ ...paddingSx, paddingBottom: 0 }}>Announcements</PageTitle>
+                <ExpandDown wrapperSx={fullWidthSx} sx={{ ...paddingSx, ...fullWidthSx }} length={0.75}>
+                  <FadeIn sx={fullWidthSx}>
+                    <AnnouncementList>
+                      {announcements
+                        .sort((a: AnnouncementType, b: AnnouncementType) => b.timestamp - a.timestamp)
+                        .map((announcement: AnnouncementType): React.ReactNode => (
+                          <Announcement
+                            key={v4()}
+                            announcement={announcement}
+                          />
+                        ))}
+                    </AnnouncementList>
+                  </FadeIn>
+                </ExpandDown>
               </>
             ) : (
-              <PageTitle>No announcements yet</PageTitle>
+              <PageTitle sx={paddingSx}>No announcements yet</PageTitle>
             )
         ) : (
-          <PageTitle>Loading announcements...</PageTitle>
+          <>
+            <PageTitle sx={paddingSx}>Loading announcements...</PageTitle>
+            <FullCenter>
+              <CircularProgress size={50} />
+            </FullCenter>
+          </>
         )}
-      {isAdmin ? (
+      {isAdmin && (
         <Fab sx={fabStyles} color="primary" onClick={handleAddingAnnouncement}>
           <AddIcon />
         </Fab>
-      ) : (
-        <></>
       )}
     </AnnouncementsWrapper>
   );

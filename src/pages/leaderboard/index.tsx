@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getLeaderboard } from 'src/firebase';
 import { styled } from '@mui/material/styles';
+import { CircularProgress } from '@mui/material';
 import { utils } from 'src/style-utils';
 
 import type { PointHistory, UserType } from 'src/interfaces';
@@ -9,6 +10,9 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Card from 'src/components/card';
 import PageTitle from 'src/components/page-title';
 import Sub from 'src/components/sub';
+import FadeIn from 'src/components/keyframes/fade-in';
+import FullCenter from 'src/components/full-center';
+import ExpandDown from 'src/components/keyframes/expand-down';
 
 const LeaderboardWrapper = styled('div')({
   padding: utils.contentPadding,
@@ -75,6 +79,7 @@ const DataWrapper = styled('span')({
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState<UserType[]>([]);
   const [leaderbaordScroll, setLeaderboardScroll] = useState<number>(0);
+  const [leaderboardRes, setLeaderboardRes] = useState<boolean>(false);
   const goldColor = '#f5ce00';
   const silverColor = '#C0C0C0';
   const bronzeColor = '#CD7F32';
@@ -83,6 +88,7 @@ const Leaderboard = () => {
     (async (): Promise<void> => {
       const leaderboardData = await getLeaderboard();
       setLeaderboard(leaderboardData);
+      setLeaderboardRes(true);
     })();
   }, []);
 
@@ -113,45 +119,60 @@ const Leaderboard = () => {
   return (
     <LeaderboardWrapper>
       <PageTitle>Leaderboard</PageTitle>
-      <Card sx={leaderboardSx} onScroll={handleScroll}>
-        <LeaderboardHeader sx={leaderbaordScroll > 0 ? leaderboardShadowSx : {}}>
-          <Sub>Name</Sub>
-          <Sub>Points</Sub>
-        </LeaderboardHeader>
-        <LeaderboardContent>
-          {leaderboard.length > 0 && (
-            leaderboard
-              .sort((a: UserType, b: UserType) => getPointsFromHistory(b.history) - getPointsFromHistory(a.history))
-              .map((data: UserType, i: number) => (
-                <LeaderboardItem key={`leaderbaord-item-${i}`}>
-                  {i === 0 ? (
-                    <AbsolutePlaceWrapper>
-                      <EmojiEventsIcon sx={{ color: goldColor }} />
-                      <span>1</span>
-                    </AbsolutePlaceWrapper>
-                  ) : i === 1 ? (
-                    <AbsolutePlaceWrapper>
-                      <EmojiEventsIcon sx={{ color: silverColor }} />
-                      <span>2</span>
-                    </AbsolutePlaceWrapper>
-                  ) : i === 2 ? (
-                    <AbsolutePlaceWrapper>
-                      <EmojiEventsIcon sx={{ color: bronzeColor }} />
-                      <span>3</span>
-                    </AbsolutePlaceWrapper>
-                  ) : (
-                    <PlaceWrapper>{i + 1}</PlaceWrapper>
-                  )}
-                  <DataWrapper>
-                    <span>{data.name}</span>
-                    <span>{getPointsFromHistory(data.history)}</span>
-                  </DataWrapper>
-                </LeaderboardItem>
-              ))
-          )}
-        </LeaderboardContent>
-      </Card>
-    </LeaderboardWrapper>
+      <FadeIn>
+        <Card sx={leaderboardSx} onScroll={handleScroll}>
+          <LeaderboardHeader sx={leaderbaordScroll > 0 ? leaderboardShadowSx : {}}>
+            <Sub>Name</Sub>
+            <Sub>Points</Sub>
+          </LeaderboardHeader>
+          {leaderboardRes
+            ? (
+              <FadeIn>
+                <ExpandDown>
+                  <LeaderboardContent>
+                    {leaderboard.length > 0 && (
+                      leaderboard
+                        .sort((a: UserType, b: UserType) => getPointsFromHistory(b.history) - getPointsFromHistory(a.history))
+                        .map((data: UserType, i: number) => (
+                          <LeaderboardItem key={`leaderbaord-item-${i}`}>
+                            {i === 0 ? (
+                              <AbsolutePlaceWrapper>
+                                <EmojiEventsIcon sx={{ color: goldColor }} />
+                                <span>1</span>
+                              </AbsolutePlaceWrapper>
+                            ) : i === 1 ? (
+                              <AbsolutePlaceWrapper>
+                                <EmojiEventsIcon sx={{ color: silverColor }} />
+                                <span>2</span>
+                              </AbsolutePlaceWrapper>
+                            ) : i === 2 ? (
+                              <AbsolutePlaceWrapper>
+                                <EmojiEventsIcon sx={{ color: bronzeColor }} />
+                                <span>3</span>
+                              </AbsolutePlaceWrapper>
+                            ) : (
+                              <PlaceWrapper>{i + 1}</PlaceWrapper>
+                            )}
+                            <DataWrapper>
+                              <span>{data.name}</span>
+                              <span>{getPointsFromHistory(data.history)}</span>
+                            </DataWrapper>
+                          </LeaderboardItem>
+                        ))
+                    )}
+                  </LeaderboardContent>
+                </ExpandDown>
+              </FadeIn>
+            )
+            : (
+              <FullCenter>
+                <CircularProgress color="info" />
+              </FullCenter>
+            )
+          }
+        </Card>
+      </FadeIn>
+    </LeaderboardWrapper >
   );
 };
 

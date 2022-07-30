@@ -48,7 +48,7 @@ export const signIn = async () => {
 	await getUserData(user);
 };
 
-export const getUser = () => {
+export const getUser = (): any => {
 	return auth.currentUser;
 };
 
@@ -56,7 +56,7 @@ export const getAuthObj = (): any => {
 	return auth;
 };
 
-export const signOut = () => {
+export const signOut = (): void => {
 	auth.signOut();
 }
 

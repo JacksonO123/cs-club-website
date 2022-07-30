@@ -2,10 +2,8 @@ import { useContext, useState } from 'react';
 import {
   Button,
   TextField,
-  Avatar,
 } from '@mui/material';
 import { updateAnnouncement, deleteAnnouncement } from 'src/firebase';
-import { v4 } from 'uuid';
 import { AdminContext } from 'src/Contexts';
 import { styled } from '@mui/material/styles';
 import { utils } from 'src/style-utils';
@@ -16,6 +14,7 @@ import Card from 'src/components/card';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import Confirm from 'src/components/confirm';
 
 import 'src/utils.scss';
 
@@ -78,32 +77,35 @@ const Announcement = ({ announcement }: Props) => {
   const isAdmin: boolean | null = useContext(AdminContext);
   const [editing, setEditing] = useState<boolean>(false);
   const [newValue, setNewValue] = useState<string>(announcement.content);
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
 
   const handleButtonStyle = {
     minWidth: '0',
     padding: '3.25px',
   };
 
-  const handleStartEdit = () => {
+  const handleStartEdit = (): void => {
     setEditing(true);
   };
 
-  const handleSubmitEdit = () => {
+  const handleSubmitEdit = (): void => {
     setEditing(false);
     console.log(announcement);
     updateAnnouncement(announcement.id, newValue);
   };
 
-  const handleDelete = () => {
-    const canDelete = window.confirm(
-      'Are you sure you want to delete this announcement?'
-    );
-    if (canDelete) deleteAnnouncement(announcement.id);
+  const handleStartDelete = (): void => {
+    setConfirmOpen(true);
+  };
+
+  const handleDelete = (): void => {
+    deleteAnnouncement(announcement.id);
   };
 
   const imgSx = {
-    width: '26px',
-    height: '26px',
+    width: 26,
+    height: 26,
+    borderRadius: 100
   };
 
   const cardSx = {
@@ -114,13 +116,20 @@ const Announcement = ({ announcement }: Props) => {
 
   return (
     <AnnouncementWrapper>
+      <Confirm
+        onClose={() => setConfirmOpen(false)}
+        open={confirmOpen}
+        onAccept={handleDelete}
+        onReject={() => setConfirmOpen(false)}
+      >Are you sure you want to delete this announcement?</Confirm>
       <Card sx={cardSx} stretch>
         <Info>
           <From>
-            <Avatar
+            <img
               src={announcement.fromPhotoUrl}
               alt=""
-              sx={imgSx}
+              style={imgSx}
+              referrerPolicy="no-referrer"
             />
             <FromInfo>
               <FromName>{announcement.from}</FromName>
@@ -150,7 +159,7 @@ const Announcement = ({ announcement }: Props) => {
                 <Button
                   color="error"
                   sx={handleButtonStyle}
-                  onClick={handleDelete}
+                  onClick={handleStartDelete}
                 >
                   <DeleteOutlineRoundedIcon />
                 </Button>
@@ -173,9 +182,9 @@ const Announcement = ({ announcement }: Props) => {
             announcement.content
               .split('\n')
               .map((line: string, index: number, array: string[]) => (
-                <span key={v4()}>
+                <span key={`announcement-content-${index}`}>
                   {line}
-                  {index < array.length - 1 ? <br /> : <></>}
+                  {index < array.length - 1 && <br />}
                 </span>
               ))
           )}

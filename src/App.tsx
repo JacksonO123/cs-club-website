@@ -1,7 +1,12 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuthObj, getIsAdmin } from './firebase';
 import { useState, useEffect } from 'react';
-import { UserContext, UserLoadingContext, AdminContext } from './Contexts';
+import {
+  UserContext,
+  UserLoadingContext,
+  AdminContext,
+  UserResponseContext,
+} from './Contexts';
 import { styled } from '@mui/material/styles';
 import { utils } from 'src/style-utils';
 
@@ -29,27 +34,38 @@ const App = () => {
   const [user, loading, error] = useAuthState(auth);
   // admin; null = loading, false = not admin
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [userResponse, setUserResponse] = useState<boolean>(false);
 
   useEffect((): void => {
-    (async (): Promise<void> => {
-      const tempIsAdmin = await getIsAdmin(user?.uid);
-      setIsAdmin(tempIsAdmin);
-    })();
+    if (user?.uid !== undefined) {
+      (async (): Promise<void> => {
+        const tempIsAdmin = await getIsAdmin(user?.uid);
+        setIsAdmin(tempIsAdmin);
+      })();
+    }
   }, [user?.uid]);
+
+  useEffect(() => {
+    if (loading === false) {
+      setUserResponse(true);
+    }
+  }, [loading]);
 
   return (
     <UserContext.Provider value={user}>
-      <UserLoadingContext.Provider value={loading}>
-        <AdminContext.Provider value={isAdmin}>
-          <AppWrapper>
-            <Header></Header>
-            <Content>
-              <Sidebar />
-              <Router />
-            </Content>
-          </AppWrapper>
-        </AdminContext.Provider>
-      </UserLoadingContext.Provider>
+      <UserResponseContext.Provider value={userResponse}>
+        <UserLoadingContext.Provider value={loading}>
+          <AdminContext.Provider value={isAdmin}>
+            <AppWrapper>
+              <Header />
+              <Content>
+                <Sidebar />
+                <Router />
+              </Content>
+            </AppWrapper>
+          </AdminContext.Provider>
+        </UserLoadingContext.Provider>
+      </UserResponseContext.Provider>
     </UserContext.Provider>
   );
 };

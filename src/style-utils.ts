@@ -1,5 +1,8 @@
+import { keyframes as kf } from 'styled-components';
+
 export const utils = {
 	yellow: '#ffc107',
+	yellowRgb: '255, 193, 7',
 	blue: '#007bff',
 	red: 'rgb(255, 104, 104)',
 	headerHeight: '65px',
@@ -21,14 +24,21 @@ export const classes = {
 		display: 'flex',
 		'flex-direction': 'row'
 	},
-	sub: {
-		color: '#868e96',
-		'font-size': 'smaller'
-	},
 	center: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignContent: 'center'
 	}
+};
+
+export const keyframes = {
+	fadeIn: kf`
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	`
 };

@@ -1,5 +1,5 @@
 import { AdminType } from '../../interfaces';
-import { Typography, Avatar } from '@mui/material';
+import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { utils } from 'src/style-utils';
 

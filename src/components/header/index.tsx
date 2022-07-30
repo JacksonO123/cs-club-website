@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles';
 import { utils } from 'src/style-utils';
-import { Avatar } from '@mui/material';
 
 import mvhsLogo from 'src/assets/mvhs-logo.svg';
 
@@ -28,18 +27,17 @@ const HeaderTitle = styled('p')({
 const Header = () => {
 	return (
 		<HeaderWrapper>
-			<Avatar
+			<img
 				src={mvhsLogo}
 				alt=""
-				sx={{
+				style={{
 					height: logoSize,
-					width: 'auto',
-					borderRadius: 0
+					width: logoSize,
 				}}
 			/>
 			<HeaderTitle>MVHS CS Club</HeaderTitle>
 		</HeaderWrapper>
 	);
-}
+};
 
 export default Header;

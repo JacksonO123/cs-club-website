@@ -11,6 +11,7 @@ import { utils } from 'src/style-utils';
 import React from 'react';
 import CustomLink from 'src/components/link';
 import PageTitle from 'src/components/page-title';
+import FadeIn from 'src/components/keyframes/fade-in';
 
 const ChallengesWrapper = styled('div')({
   padding: utils.contentPadding,
@@ -46,7 +47,7 @@ const Challenges = () => {
           : "No challenges right now, sorry!"
         }
       </PageTitle>
-      <div>
+      <FadeIn>
         {challengeValues.map(
           (item: any, index: number): React.ReactNode => (
             <Accordion key={`${index}-challenge-list`}>
@@ -67,7 +68,7 @@ const Challenges = () => {
             </Accordion>
           )
         )}
-      </div>
+      </FadeIn>
     </ChallengesWrapper>
   );
 };

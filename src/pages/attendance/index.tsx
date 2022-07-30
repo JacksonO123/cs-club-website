@@ -13,7 +13,9 @@ import type { UserType, PointHistory } from 'src/interfaces';
 import Card from 'src/components/card';
 import ProfileBox from 'src/components/profile-box';
 import PageTitle from 'src/components/page-title';
-import Sub from 'src/components/sub';
+import ProfileBoxWrapper from 'src/components/profile-box-wrapper';
+import ExpandDown from 'src/components/keyframes/expand-down';
+import FadeIn from 'src/components/keyframes/fade-in';
 
 const AttendanceWrapper = styled('div')({
   padding: utils.contentPadding,
@@ -34,9 +36,6 @@ const Attendance = () => {
   const [members, setMembers] = useState<UserType[]>([]);
   const memberCardStyle = {
     minWidth: 400,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: utils.itemGap
   };
 
   const getCurrentDateString = (): string => {
@@ -59,7 +58,7 @@ const Attendance = () => {
 
   const checkAlreadyMarked = (member: any): boolean => {
     let alreadyMarked: boolean = false;
-    member.history.forEach((val: PointHistory, index: number) => {
+    member.history.forEach((val: PointHistory) => {
       if (
         val.reason === 'attending meeting' &&
         val.date === new Date().toLocaleDateString()
@@ -88,19 +87,21 @@ const Attendance = () => {
           <>
             <PageTitle>Attendance for {<CurrentDate />}</PageTitle>
             <AttendanceCards>
-              <Card sx={memberCardStyle}>
-                {members.map((member: any): React.ReactNode => (
-                  <ProfileBox user={member} key={v4()}>
-                    {checkAlreadyMarked(member) ? (
-                      <Sub>Present</Sub>
-                    ) : (
-                      <Button color="success" onClick={() => markAsPresent(member)}>
-                        Present
-                      </Button>
-                    )}
-                  </ProfileBox>
-                ))}
-              </Card>
+              <FadeIn>
+                <Card sx={memberCardStyle}>
+                  <ExpandDown>
+                    <ProfileBoxWrapper>
+                      {members.map((member: any): React.ReactNode => (
+                        <ProfileBox user={member} key={v4()}>
+                          <Button color="success" onClick={() => markAsPresent(member)} disabled={checkAlreadyMarked(member)}>
+                            Present
+                          </Button>
+                        </ProfileBox>
+                      ))}
+                    </ProfileBoxWrapper>
+                  </ExpandDown>
+                </Card>
+              </FadeIn>
             </AttendanceCards>
           </>
         )
