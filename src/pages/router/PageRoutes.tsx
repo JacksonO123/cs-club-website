@@ -6,9 +6,9 @@ import About from '../about';
 import AdminPanel from '../admin-panel';
 import Problems from '../problems';
 import Attendance from '../attendance';
-import Challenges from '../challenges/Challenges';
+import Challenges from '../Challenges';
 import Challenge from '../challenge';
-import The404Page from '../404-page/The404Page';
+import The404Page from '../404-page';
 
 const routes: RouteType[] = [
 	{

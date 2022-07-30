@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { challenges } from '../challenges/challengesData';
+import { challenges } from '../Challenges/challengesData';
 import { javascript } from '@codemirror/lang-javascript';
 import { java } from '@codemirror/lang-java';
 import {

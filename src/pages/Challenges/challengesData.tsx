@@ -1,5 +1,3 @@
-// refactor and put this in a different place
-
 const challenges: any = {
   '0': {
     title: 'Multiply',
