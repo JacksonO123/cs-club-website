@@ -105,23 +105,23 @@ const Announcements = () => {
   return (
     <AnnouncementsWrapper>
       {addingAnnouncement && (
-        <FadeIn sx={fullWidthSx}>
-          {contractNewAnnouncement
-            ? (
-              <FadeOut length={0.4}>
-                <ExpandUp
-                  callback={handleNewAnnouncementCallback}
-                >
-                  <NewAnnoucementEl />
-                </ExpandUp>
-              </FadeOut>
-            )
-            : (
+        contractNewAnnouncement
+          ? (
+            <FadeOut sx={fullWidthSx} length={0.4}>
+              <ExpandUp
+                callback={handleNewAnnouncementCallback}
+              >
+                <NewAnnoucementEl />
+              </ExpandUp>
+            </FadeOut>
+          )
+          : (
+            <FadeIn sx={fullWidthSx}>
               <ExpandDown>
                 <NewAnnoucementEl />
               </ExpandDown>
-            )}
-        </FadeIn>
+            </FadeIn>
+          )
       )}
       {announcementResponse
         ? (
