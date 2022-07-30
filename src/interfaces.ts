@@ -16,11 +16,6 @@ export interface AdminType {
   uid: string;
 }
 
-export interface PointsType {
-  name: string;
-  points: number;
-}
-
 export interface PointHistory {
   date: string;
   timestamp: number;

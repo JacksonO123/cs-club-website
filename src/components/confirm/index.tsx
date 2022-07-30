@@ -62,7 +62,6 @@ interface ConfirmState {
 	open: boolean;
 }
 
-// make return position of ripple at bottom right of screen when closing
 const ConfirmBackground = styled.div`
 	position: absolute;
 	${(props: ConfirmState): string => (
